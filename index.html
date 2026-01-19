@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TELEPORT TV | 4K Immersive</title>
+    <title>TELEPORT TV | 4K World</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --main-color: #00ff66; }
-        body { background: #0a0a0a; color: var(--main-color); font-family: 'VT323', monospace; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.5s; }
-        header { text-align: center; padding: 20px; }
-        .tv-chassis { width: 95%; max-width: 850px; background: #1a1a1a; border: 12px solid #333; border-radius: 20px; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); }
-        .screen { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; }
+        body { background: #050505; color: var(--main-color); font-family: 'VT323', monospace; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: background 0.5s, color 0.5s; }
+        header { text-align: center; padding: 15px; }
+        .tv-chassis { width: 95%; max-width: 800px; background: #1a1a1a; border: 10px solid #333; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 0 40px rgba(0,0,0,0.9); }
+        .screen { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
         .screen iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; opacity: 0.2; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.5) 50%); background-size: 100% 4px; }
-        .channel-info { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); padding: 5px 15px; border: 1px solid var(--main-color); z-index: 12; font-size: 1.2rem; }
-        .location-tag { position: absolute; bottom: 15px; left: 15px; background: var(--main-color); color: #000; padding: 5px 15px; font-size: 1.4rem; z-index: 12; font-weight: bold; }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; opacity: 0.15; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.5) 50%); background-size: 100% 4px; }
+        .channel-info { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 5px 12px; border: 1px solid var(--main-color); z-index: 12; font-size: 1.1rem; }
+        .location-tag { position: absolute; bottom: 10px; left: 10px; background: var(--main-color); color: #000; padding: 4px 12px; font-size: 1.3rem; z-index: 12; font-weight: bold; }
         .remote-control { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; width: 90%; max-width: 500px; }
-        button { background: transparent; color: var(--main-color); border: 2px solid var(--main-color); padding: 10px; font-family: 'VT323', monospace; font-size: 1.3rem; cursor: pointer; transition: 0.3s; }
+        button { background: transparent; color: var(--main-color); border: 2px solid var(--main-color); padding: 12px; font-family: 'VT323', monospace; font-size: 1.3rem; cursor: pointer; transition: 0.3s; }
         button:hover { background: var(--main-color); color: #000; }
-        .footer-info { margin-top: 20px; text-align: center; color: #555; font-size: 1rem; }
+        .footer { margin-top: 25px; font-size: 0.9rem; color: #444; text-align: center; }
         a { color: var(--main-color); text-decoration: none; }
     </style>
 </head>
@@ -26,82 +26,58 @@
 
 <header>
     <h1>TELEPORT TV</h1>
-    <p id="status-line">SYSTEM ONLINE • TUNING WORLDWIDE</p>
+    <p>TUNING WORLDWIDE • 4K ESCAPE</p>
 </header>
 
 <div class="tv-chassis">
     <div class="screen">
-        <div id="player"></div>
+        <!-- Usamos un iframe directo para evitar bloqueos de API -->
+        <iframe id="tv-frame" 
+            src="https://www.youtube.com" 
+            allow="autoplay; encrypted-media" allowfullscreen>
+        </iframe>
         <div class="overlay"></div>
-        <div class="channel-info" id="signal-info">CH-01 • ONLINE</div>
-        <div id="location-label" class="location-tag">LOADING...</div>
+        <div class="channel-info" id="signal-info">CH-01 • URBAN</div>
+        <div id="location-label" class="location-tag">TOKYO, JAPAN 🇯🇵</div>
     </div>
 </div>
 
 <div class="remote-control">
-    <button onclick="switchChannel(0)" style="--btn-color: #00ff66;">[ 🌿 JUNGLE ]</button>
-    <button onclick="switchChannel(1)" style="--btn-color: #00e1ff;">[ 🏔️ ALPS ]</button>
-    <button onclick="switchChannel(2)" style="--btn-color: #ffaa00;">[ 🏖️ COAST ]</button>
-    <button onclick="switchChannel(3)" style="--btn-color: #7a82ff;">[ 🌧️ RAIN ]</button>
+    <button onclick="changeTV(0)">[ 🌿 JUNGLE ]</button>
+    <button onclick="changeTV(1)">[ 🏔️ ALPS ]</button>
+    <button onclick="changeTV(2)">[ 🏖️ COAST ]</button>
+    <button onclick="changeTV(3)">[ 🌧️ RAIN ]</button>
 </div>
 
-<div class="footer-info">
-    <p>Donations via <a href="TU_LINK_TAKENOS">Takenos</a> | Credits: 4K Walk, ProWalk, Nomadic Ambience.</p>
+<div class="footer">
+    <p>Donations via <a href="TU_LINK_TAKENOS">Takenos</a> | 2026 Teleport TV Project</p>
 </div>
 
 <script>
-    // 1. Cargar API de YouTube correctamente
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    let player;
-    const playlist = [
-        { name: "URBAN JUNGLE", color: "#00ff66", vids: [{id: "V9yjeX7_m_I", loc: "Tokyo, Japan 🇯🇵"}] },
-        { name: "MOUNTAIN PEAKS", color: "#00e1ff", vids: [{id: "Y_8K5y8K8e4", loc: "Zermatt, Swiss 🇨🇭"}] },
-        { name: "GOLDEN COAST", color: "#ffaa00", vids: [{id: "l_OOnGvU48Y", loc: "Phuket, Thailand 🇹🇭"}] },
-        { name: "RAINY NOSTALGIA", color: "#7a82ff", vids: [{id: "Su00m_XIn28", loc: "London, UK 🇬🇧"}] }
+    const channels = [
+        { name: "URBAN JUNGLE", color: "#00ff66", id: "V9yjeX7_m_I", loc: "TOKYO, JAPAN 🇯🇵" },
+        { name: "MOUNTAIN PEAKS", color: "#00e1ff", id: "Y_8K5y8K8e4", loc: "ZERMATT, SWISS 🇨🇭" },
+        { name: "GOLDEN COAST", color: "#ffaa00", id: "l_OOnGvU48Y", loc: "PHUKET, THAILAND 🇹🇭" },
+        { name: "RAINY DAYS", color: "#7a82ff", id: "Su00m_XIn28", loc: "LONDON, UK 🇬🇧" }
     ];
 
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-            height: '100%',
-            width: '100%',
-            videoId: playlist[0].vids[0].id,
-            playerVars: {
-                'autoplay': 1,
-                'mute': 1,
-                'controls': 1,
-                'modestbranding': 1,
-                'rel': 0,
-                'showinfo': 0
-            },
-            events: {
-                'onReady': onPlayerReady
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        event.target.playVideo();
-        document.getElementById('location-label').innerText = playlist[0].vids[0].loc;
-    }
-
-    function switchChannel(idx) {
-        const channel = playlist[idx];
-        const vid = channel.vids[0]; // Simplificado para asegurar que cargue
+    function changeTV(idx) {
+        const ch = channels[idx];
+        const frame = document.getElementById('tv-frame');
         
-        // Cambiar colores de la interfaz
-        document.documentElement.style.setProperty('--main-color', channel.color);
+        // Cambiar colores
+        document.documentElement.style.setProperty('--main-color', ch.color);
         
-        player.loadVideoById(vid.id);
+        // Cambiar Video (Usando la URL de embed directa)
+        frame.src = `https://www.youtube.com{ch.id}?autoplay=1&mute=1&controls=1&loop=1&playlist=${ch.id}`;
+        
+        // Actualizar Etiquetas
         document.getElementById('location-label').innerText = "TUNING...";
-        document.getElementById('signal-info').innerText = "CH-0" + (idx + 1) + " • " + channel.name;
+        document.getElementById('signal-info').innerText = "CH-0" + (idx + 1) + " • " + ch.name;
         
         setTimeout(() => {
-            document.getElementById('location-label').innerText = vid.loc;
-        }, 1200);
+            document.getElementById('location-label').innerText = ch.loc;
+        }, 1000);
     }
 </script>
 
