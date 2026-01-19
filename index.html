@@ -23,7 +23,7 @@
 
 <header>
     <h1>TELEPORT TV</h1>
-    <p>4K GLOBAL BROADCAST • SYSTEM 2026</p>
+    <p>4K GLOBAL BROADCAST • 2026</p>
 </header>
 
 <div class="tv-chassis">
@@ -43,7 +43,7 @@
 </div>
 
 <script>
-    const channels = [
+    var channels = [
         { id: "V9yjeX7_m_I", color: "#00ff66", loc: "TOKYO, JAPAN 🇯🇵", name: "CH-01 • URBAN" },
         { id: "Y_8K5y8K8e4", color: "#00e1ff", loc: "ZERMATT, SWISS 🇨🇭", name: "CH-02 • MOUNTAIN" },
         { id: "l_OOnGvU48Y", color: "#ffaa00", loc: "PHUKET, THAILAND 🇹🇭", name: "CH-03 • COAST" },
@@ -51,28 +51,22 @@
     ];
 
     function tune(idx) {
-        // Ocultar el botón de encendido si es la primera vez
+        // Ocultar botón
         document.getElementById('pwr-btn').style.display = 'none';
         
-        const ch = channels[idx];
+        var ch = channels[idx];
         document.documentElement.style.setProperty('--main-color', ch.color);
         
-        // El método de "Fuerza Bruta": Reemplazamos el HTML interno del contenedor
-        // Esto obliga al navegador a tratar el video como una carga nueva solicitada por el usuario
-        const container = document.getElementById('video-container');
-        container.innerHTML = `
-            <iframe width="100%" height="100%" 
-                src="https://www.youtube.com{ch.id}?autoplay=1&mute=1&controls=1&rel=0" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media" 
-                allowfullscreen>
-            </iframe>
-        `;
+        // Construcción de URL con concatenación clásica (evita el error de Firefox)
+        var url = "https://www.youtube.com" + ch.id + "?autoplay=1&mute=1&controls=1&rel=0";
+        
+        var container = document.getElementById('video-container');
+        container.innerHTML = '<iframe width="100%" height="100%" src="' + url + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 
         document.getElementById('signal-info').innerText = ch.name;
         document.getElementById('location-label').innerText = "TUNING...";
         
-        setTimeout(() => {
+        setTimeout(function() {
             document.getElementById('location-label').innerText = ch.loc;
         }, 1000);
     }
