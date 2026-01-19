@@ -3,66 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TELEPORT TV | 2026 Immersive</title>
-    <!-- Fuentes y Plyr CSS -->
+    <title>TELEPORT TV | 4K WORLD</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.plyr.io" />
     <style>
         :root { --main-color: #00ff66; }
         body { background: #050505; color: var(--main-color); font-family: 'VT323', monospace; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         header { text-align: center; padding: 15px; }
         .tv-chassis { width: 95%; max-width: 800px; background: #1a1a1a; border: 12px solid #333; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 0 40px rgba(0,0,0,0.9); }
-        
-        /* Contenedor del reproductor */
-        .plyr__video-embed { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
-        
-        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; opacity: 0.15; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.5) 50%); background-size: 100% 4px; }
+        .screen { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
+        #video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .power-on-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--main-color); color: #000; border: none; padding: 20px 40px; font-family: 'VT323'; font-size: 2rem; cursor: pointer; z-index: 100; border-radius: 10px; }
         .channel-info { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 5px 12px; border: 1px solid var(--main-color); z-index: 12; }
         .location-tag { position: absolute; bottom: 10px; left: 10px; background: var(--main-color); color: #000; padding: 4px 12px; font-size: 1.3rem; z-index: 12; font-weight: bold; }
-        
         .remote { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; width: 90%; max-width: 500px; }
-        .btn-ch { background: transparent; color: var(--main-color); border: 2px solid var(--main-color); padding: 12px; font-family: 'VT323'; font-size: 1.3rem; cursor: pointer; transition: 0.3s; }
-        .btn-ch:hover { background: var(--main-color); color: #000; }
-        
-        /* Estilo para el botón de encendido inicial */
-        .power-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background:#000; z-index:100; display:flex; align-items:center; justify-content:center; }
-        #start-btn { background: var(--main-color); color:#000; border:none; padding: 20px 40px; font-family:'VT323'; font-size:2rem; cursor:pointer; border-radius:10px; }
+        .btn-ch { background: transparent; color: var(--main-color); border: 2px solid var(--main-color); padding: 12px; font-family: 'VT323'; font-size: 1.3rem; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>TELEPORT TV</h1>
-    <p>4K GLOBAL BROADCAST • POWERED BY PLYR</p>
+    <p>4K GLOBAL BROADCAST • SYSTEM 2026</p>
 </header>
 
 <div class="tv-chassis">
-    <div id="power-on" class="power-overlay">
-        <button id="start-btn" onclick="initTV()">[ TURN ON TV ]</button>
-    </div>
-    
     <div class="screen">
-        <div class="plyr__video-embed" id="player-container">
-            <!-- Plyr inyectará el video aquí -->
-            <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="V9yjeX7_m_I"></div>
-        </div>
-        <div class="overlay"></div>
-        <div class="channel-info" id="signal-info">CH-01 • URBAN</div>
-        <div id="location-label" class="location-tag">TOKYO, JAPAN 🇯🇵</div>
+        <button id="pwr-btn" class="power-on-btn" onclick="tune(0)">[ TURN ON TV ]</button>
+        <div id="video-container"></div>
+        <div class="channel-info" id="signal-info">OFFLINE</div>
+        <div id="location-label" class="location-tag">NO SIGNAL</div>
     </div>
 </div>
 
 <div class="remote">
-    <button class="btn-ch" onclick="changeChannel(0)">[ 🌿 JUNGLE ]</button>
-    <button class="btn-ch" onclick="changeChannel(1)">[ 🏔️ ALPS ]</button>
-    <button class="btn-ch" onclick="changeChannel(2)">[ 🏖️ COAST ]</button>
-    <button class="btn-ch" onclick="changeChannel(3)">[ 🌧️ RAIN ]</button>
+    <button class="btn-ch" onclick="tune(0)">[ 🌿 JUNGLE ]</button>
+    <button class="btn-ch" onclick="tune(1)">[ 🏔️ ALPS ]</button>
+    <button class="btn-ch" onclick="tune(2)">[ 🏖️ COAST ]</button>
+    <button class="btn-ch" onclick="tune(3)">[ 🌧️ RAIN ]</button>
 </div>
 
-<!-- Scripts -->
-<script src="https://cdn.plyr.io"></script>
 <script>
-    let player;
     const channels = [
         { id: "V9yjeX7_m_I", color: "#00ff66", loc: "TOKYO, JAPAN 🇯🇵", name: "CH-01 • URBAN" },
         { id: "Y_8K5y8K8e4", color: "#00e1ff", loc: "ZERMATT, SWISS 🇨🇭", name: "CH-02 • MOUNTAIN" },
@@ -70,42 +50,31 @@
         { id: "Su00m_XIn28", color: "#7a82ff", loc: "LONDON, UK 🇬🇧", name: "CH-04 • RAINY" }
     ];
 
-    function initTV() {
-        document.getElementById('power-on').style.display = 'none';
-        
-        // Inicializamos Plyr
-        player = new Plyr('#player', {
-            autoplay: true,
-            muted: true,
-            hideControls: true,
-            youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
-        });
-
-        // Forzamos el play cuando esté listo
-        player.on('ready', () => {
-            player.play();
-        });
-    }
-
-    function changeChannel(idx) {
-        if (!player) return;
+    function tune(idx) {
+        // Ocultar el botón de encendido si es la primera vez
+        document.getElementById('pwr-btn').style.display = 'none';
         
         const ch = channels[idx];
         document.documentElement.style.setProperty('--main-color', ch.color);
         
-        // Cambio de video usando la API de Plyr (Muy estable)
-        player.source = {
-            type: 'video',
-            sources: [{ src: ch.id, provider: 'youtube' }],
-        };
+        // El método de "Fuerza Bruta": Reemplazamos el HTML interno del contenedor
+        // Esto obliga al navegador a tratar el video como una carga nueva solicitada por el usuario
+        const container = document.getElementById('video-container');
+        container.innerHTML = `
+            <iframe width="100%" height="100%" 
+                src="https://www.youtube.com{ch.id}?autoplay=1&mute=1&controls=1&rel=0" 
+                frameborder="0" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+            </iframe>
+        `;
 
         document.getElementById('signal-info').innerText = ch.name;
         document.getElementById('location-label').innerText = "TUNING...";
         
         setTimeout(() => {
             document.getElementById('location-label').innerText = ch.loc;
-            player.play();
-        }, 1200);
+        }, 1000);
     }
 </script>
 </body>
