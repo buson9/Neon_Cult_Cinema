@@ -26,7 +26,7 @@
 
 <header>
     <h1>TELEPORT TV</h1>
-    <p>4K GLOBAL BROADCAST • SYSTEM ONLINE</p>
+    <p>4K GLOBAL BROADCAST • 2026 SYSTEM</p>
 </header>
 
 <div class="tv-chassis">
@@ -42,41 +42,32 @@
 </div>
 
 <div class="remote-control">
-    <button onclick="changeTV(0)">[ 🌿 JUNGLE ]</button>
-    <button onclick="changeTV(1)">[ 🏔️ ALPS ]</button>
-    <button onclick="changeTV(2)">[ 🏖️ COAST ]</button>
-    <button onclick="changeTV(3)">[ 🌧️ RAIN ]</button>
+    <button onclick="changeTV('https://www.youtube.com', '#00ff66', 'TOKYO, JAPAN 🇯🇵', 'CH-01 • URBAN JUNGLE')">[ 🌿 JUNGLE ]</button>
+    <button onclick="changeTV('https://www.youtube.com', '#00e1ff', 'ZERMATT, SWISS 🇨🇭', 'CH-02 • MOUNTAIN')">[ 🏔️ ALPS ]</button>
+    <button onclick="changeTV('https://www.youtube.com', '#ffaa00', 'PHUKET, THAILAND 🇹🇭', 'CH-03 • COAST')">[ 🏖️ COAST ]</button>
+    <button onclick="changeTV('https://www.youtube.com', '#7a82ff', 'LONDON, UK 🇬🇧', 'CH-04 • RAINY')">[ 🌧️ RAIN ]</button>
 </div>
 
 <div class="footer">
-    <p>Support this project via <a href="TU_LINK_TAKENOS">Takenos</a> | 2026 Global Slow TV</p>
+    <p>Support via <a href="TU_LINK_TAKENOS">Takenos</a> | Teleport TV Bolivia</p>
 </div>
 
 <script>
-    const channels = [
-        { name: "URBAN JUNGLE", color: "#00ff66", id: "V9yjeX7_m_I", loc: "TOKYO, JAPAN 🇯🇵" },
-        { name: "MOUNTAIN PEAKS", color: "#00e1ff", id: "Y_8K5y8K8e4", loc: "ZERMATT, SWISS 🇨🇭" },
-        { name: "GOLDEN COAST", color: "#ffaa00", id: "l_OOnGvU48Y", loc: "PHUKET, THAILAND 🇹🇭" },
-        { name: "RAINY DAYS", color: "#7a82ff", id: "Su00m_XIn28", loc: "LONDON, UK 🇬🇧" }
-    ];
-
-    function changeTV(idx) {
-        const ch = channels[idx];
+    function changeTV(url, color, location, channelName) {
         const frame = document.getElementById('tv-frame');
         
-        // Cambiar colores
-        document.documentElement.style.setProperty('--main-color', ch.color);
+        // Cambio de color de la interfaz
+        document.documentElement.style.setProperty('--main-color', color);
         
-        // URL CONSTRUIDA MANUALMENTE PARA EVITAR ERRORES DE CONCATENACIÓN
-        const baseUrl = "https://www.youtube.com";
-        const params = "?autoplay=1&mute=1&controls=1&rel=0";
-        frame.src = baseUrl + ch.id + params;
+        // Cambio de video con URL absoluta (evita errores de barras)
+        frame.src = url;
         
+        // Actualización de textos
         document.getElementById('location-label').innerText = "TUNING...";
-        document.getElementById('signal-info').innerText = "CH-0" + (idx + 1) + " • " + ch.name;
+        document.getElementById('signal-info').innerText = channelName;
         
         setTimeout(() => {
-            document.getElementById('location-label').innerText = ch.loc;
+            document.getElementById('location-label').innerText = location;
         }, 1000);
     }
 </script>
