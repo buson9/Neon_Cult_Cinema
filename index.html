@@ -16,65 +16,48 @@
         .remote { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; width: 90%; max-width: 500px; }
         button { background: transparent; color: var(--main-color); border: 2px solid var(--main-color); padding: 12px; font-family: 'VT323'; font-size: 1.3rem; cursor: pointer; transition: 0.3s; }
         button:hover { background: var(--main-color); color: #000; }
-        .footer { margin-top: 20px; color: #444; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>TELEPORT TV</h1>
-    <p>4K IMMERSIVE SYSTEM • 2026 ONLINE</p>
+    <p>4K GLOBAL BROADCAST • IMMERSIVE SYSTEM</p>
 </header>
 
 <div class="tv-chassis">
     <div class="screen">
+        <!-- El primer canal ya viene con la URL completa escrita a mano -->
         <iframe id="tv-frame" 
-            src="" 
+            src="https://www.youtube.com" 
             allow="autoplay; encrypted-media" 
             allowfullscreen>
         </iframe>
-        <div id="location-label" class="location-tag">POWERING ON...</div>
+        <div id="location-label" class="location-tag">TOKYO, JAPAN 🇯🇵</div>
     </div>
 </div>
 
 <div class="remote">
-    <button onclick="tune('V9yjeX7_m_I', '#00ff66', 'TOKYO, JAPAN 🇯🇵')">[ 🌿 JUNGLE ]</button>
-    <button onclick="tune('Y_8K5y8K8e4', '#00e1ff', 'ZERMATT, SWISS 🇨🇭')">[ 🏔️ ALPS ]</button>
-    <button onclick="tune('l_OOnGvU48Y', '#ffaa00', 'PHUKET, THAILAND 🇹🇭')">[ 🏖️ COAST ]</button>
-    <button onclick="tune('Su00m_XIn28', '#7a82ff', 'LONDON, UK 🇬🇧')">[ 🌧️ RAIN ]</button>
-</div>
-
-<div class="footer">
-    Bolivia Digital Project • 2026
+    <button onclick="tune('https://www.youtube.com', '#00ff66', 'TOKYO, JAPAN 🇯🇵')">[ 🌿 JUNGLE ]</button>
+    <button onclick="tune('https://www.youtube.com', '#00e1ff', 'ZERMATT, SWISS 🇨🇭')">[ 🏔️ ALPS ]</button>
+    <button onclick="tune('https://www.youtube.com', '#ffaa00', 'PHUKET, THAILAND 🇹🇭')">[ 🏖️ COAST ]</button>
+    <button onclick="tune('https://www.youtube.com', '#7a82ff', 'LONDON, UK 🇬🇧')">[ 🌧️ RAIN ]</button>
 </div>
 
 <script>
-    function tune(id, color, loc) {
+    function tune(fullUrl, color, loc) {
+        // Cambiar el color de la interfaz
         document.documentElement.style.setProperty('--main-color', color);
         
-        // --- LA SOLUCIÓN TÉCNICA ---
-        // Obtenemos el origen de la página (buson9.github.io)
-        const origin = window.location.origin;
-        
-        // Construimos la URL con el parámetro 'origin' y 'enablejsapi'
-        // Esto desbloquea el rechazo de conexión en Firefox y Chrome
-        const finalUrl = "https://www.youtube.com" + id + 
-                         "?autoplay=1&mute=1&enablejsapi=1&origin=" + origin + 
-                         "&widgetid=1";
-        
+        // Sintonizar usando la URL completa enviada desde el botón
         const frame = document.getElementById('tv-frame');
-        frame.src = finalUrl;
+        frame.src = fullUrl + "&enablejsapi=1&origin=" + window.location.origin;
         
         document.getElementById('location-label').innerText = "TUNING...";
         setTimeout(() => {
             document.getElementById('location-label').innerText = loc;
         }, 800);
     }
-
-    // Iniciar automáticamente el primer canal al cargar
-    window.onload = () => {
-        tune('V9yjeX7_m_I', '#00ff66', 'TOKYO, JAPAN 🇯🇵');
-    };
 </script>
 
 </body>
