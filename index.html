@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TELEPORT TV | 4K World</title>
+    <title>TELEPORT TV | 4K World Escape</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --main-color: #00ff66; }
-        body { background: #050505; color: var(--main-color); font-family: 'VT323', monospace; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: background 0.5s, color 0.5s; }
+        body { background: #050505; color: var(--main-color); font-family: 'VT323', monospace; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.5s; }
         header { text-align: center; padding: 15px; }
         .tv-chassis { width: 95%; max-width: 800px; background: #1a1a1a; border: 10px solid #333; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 0 40px rgba(0,0,0,0.9); }
         .screen { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
@@ -26,12 +26,11 @@
 
 <header>
     <h1>TELEPORT TV</h1>
-    <p>TUNING WORLDWIDE • 4K ESCAPE</p>
+    <p>4K GLOBAL BROADCAST • SYSTEM ONLINE</p>
 </header>
 
 <div class="tv-chassis">
     <div class="screen">
-        <!-- Usamos un iframe directo para evitar bloqueos de API -->
         <iframe id="tv-frame" 
             src="https://www.youtube.com" 
             allow="autoplay; encrypted-media" allowfullscreen>
@@ -50,7 +49,7 @@
 </div>
 
 <div class="footer">
-    <p>Donations via <a href="TU_LINK_TAKENOS">Takenos</a> | 2026 Teleport TV Project</p>
+    <p>Support this project via <a href="TU_LINK_TAKENOS">Takenos</a> | 2026 Global Slow TV</p>
 </div>
 
 <script>
@@ -65,13 +64,13 @@
         const ch = channels[idx];
         const frame = document.getElementById('tv-frame');
         
-        // Cambiar colores
+        // Cambiar colores visuales
         document.documentElement.style.setProperty('--main-color', ch.color);
         
-        // Cambiar Video (Usando la URL de embed directa)
-        frame.src = `https://www.youtube.com{ch.id}?autoplay=1&mute=1&controls=1&loop=1&playlist=${ch.id}`;
+        // CORRECCIÓN DE URL: Aseguramos el formato /embed/ y los parámetros correctos
+        const newSrc = "https://www.youtube.com" + ch.id + "?autoplay=1&mute=1&controls=1&rel=0&showinfo=0&iv_load_policy=3&enablejsapi=1";
+        frame.src = newSrc;
         
-        // Actualizar Etiquetas
         document.getElementById('location-label').innerText = "TUNING...";
         document.getElementById('signal-info').innerText = "CH-0" + (idx + 1) + " • " + ch.name;
         
