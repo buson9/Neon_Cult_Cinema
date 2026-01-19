@@ -28,7 +28,7 @@
 
 <div class="tv-chassis">
     <div class="screen">
-        <button id="pwr-btn" class="power-on-btn" onclick="tune(0)">[ TURN ON TV ]</button>
+        <button id="pwr-btn" class="power-on-btn" onclick="tune('https://www.youtube.com', '#00ff66', 'TOKYO, JAPAN 🇯🇵', 'CH-01 • URBAN')">[ TURN ON TV ]</button>
         <div id="video-container"></div>
         <div class="channel-info" id="signal-info">OFFLINE</div>
         <div id="location-label" class="location-tag">NO SIGNAL</div>
@@ -36,38 +36,30 @@
 </div>
 
 <div class="remote">
-    <button class="btn-ch" onclick="tune(0)">[ 🌿 JUNGLE ]</button>
-    <button class="btn-ch" onclick="tune(1)">[ 🏔️ ALPS ]</button>
-    <button class="btn-ch" onclick="tune(2)">[ 🏖️ COAST ]</button>
-    <button class="btn-ch" onclick="tune(3)">[ 🌧️ RAIN ]</button>
+    <button class="btn-ch" onclick="tune('https://www.youtube.com', '#00ff66', 'TOKYO, JAPAN 🇯🇵', 'CH-01 • URBAN')">[ 🌿 JUNGLE ]</button>
+    <button class="btn-ch" onclick="tune('https://www.youtube.com', '#00e1ff', 'ZERMATT, SWISS 🇨🇭', 'CH-02 • MOUNTAIN')">[ 🏔️ ALPS ]</button>
+    <button class="btn-ch" onclick="tune('https://www.youtube.com', '#ffaa00', 'PHUKET, THAILAND 🇹🇭', 'CH-03 • COAST')">[ 🏖️ COAST ]</button>
+    <button class="btn-ch" onclick="tune('https://www.youtube.com', '#7a82ff', 'LONDON, UK 🇬🇧', 'CH-04 • RAINY')">[ 🌧️ RAIN ]</button>
 </div>
 
 <script>
-    var channels = [
-        { id: "V9yjeX7_m_I", color: "#00ff66", loc: "TOKYO, JAPAN 🇯🇵", name: "CH-01 • URBAN" },
-        { id: "Y_8K5y8K8e4", color: "#00e1ff", loc: "ZERMATT, SWISS 🇨🇭", name: "CH-02 • MOUNTAIN" },
-        { id: "l_OOnGvU48Y", color: "#ffaa00", loc: "PHUKET, THAILAND 🇹🇭", name: "CH-03 • COAST" },
-        { id: "Su00m_XIn28", color: "#7a82ff", loc: "LONDON, UK 🇬🇧", name: "CH-04 • RAINY" }
-    ];
-
-    function tune(idx) {
-        // Ocultar botón
+    function tune(fullUrl, color, loc, name) {
+        // Ocultar el botón de encendido
         document.getElementById('pwr-btn').style.display = 'none';
         
-        var ch = channels[idx];
-        document.documentElement.style.setProperty('--main-color', ch.color);
+        // Cambiar el color de la interfaz
+        document.documentElement.style.setProperty('--main-color', color);
         
-        // Construcción de URL con concatenación clásica (evita el error de Firefox)
-        var url = "https://www.youtube.com" + ch.id + "?autoplay=1&mute=1&controls=1&rel=0";
-        
+        // Inyectar el Iframe con la URL ABSOLUTA (sin procesar texto)
         var container = document.getElementById('video-container');
-        container.innerHTML = '<iframe width="100%" height="100%" src="' + url + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+        container.innerHTML = '<iframe width="100%" height="100%" src="' + fullUrl + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 
-        document.getElementById('signal-info').innerText = ch.name;
+        // Actualizar textos
+        document.getElementById('signal-info').innerText = name;
         document.getElementById('location-label').innerText = "TUNING...";
         
         setTimeout(function() {
-            document.getElementById('location-label').innerText = ch.loc;
+            document.getElementById('location-label').innerText = loc;
         }, 1000);
     }
 </script>
