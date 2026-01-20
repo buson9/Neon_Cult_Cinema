@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TELEPORT TV | 4K World Immersive Experience</title>
+    <!-- Incluimos la fuente VT323 desde Google Fonts para la interfaz retro -->
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --neon-green: #00ff66; --tv-gray: #1a1a1a; }
@@ -12,22 +13,28 @@
         header { text-align: center; padding: 20px; }
         h1 { font-size: 3rem; text-shadow: 2px 2px #ff0055; margin: 0; }
 
+        /* Contenedor de la TV */
         .tv-chassis { width: 95%; max-width: 900px; background: #222; border: 20px solid #333; border-radius: 40px; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); }
         .screen { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; }
+        /* El iframe ahora tiene un ID que controlamos con JS */
         .screen iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
+        /* Efecto CRT Overlays */
         .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
         .scanlines { background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%); background-size: 100% 4px; z-index: 10; }
         .vignette { box-shadow: inset 0 0 100px rgba(0,0,0,0.7); z-index: 11; }
 
+        /* Información en pantalla */
         .channel-info { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px 20px; border: 1px solid var(--neon-green); z-index: 12; }
         .location-tag { position: absolute; bottom: 20px; left: 20px; background: rgba(0,255,102,0.2); color: #fff; padding: 5px 15px; font-size: 1.5rem; z-index: 12; backdrop-filter: blur(5px); }
 
+        /* Botonera */
         .remote-control { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 30px; width: 100%; max-width: 600px; padding: 0 20px; }
         button { background: #1a1a1a; color: var(--neon-green); border: 2px solid var(--neon-green); padding: 15px; font-family: 'VT323', monospace; font-size: 1.4rem; cursor: pointer; transition: 0.2s; }
         button:hover { background: var(--neon-green); color: #000; box-shadow: 0 0 15px var(--neon-green); }
         button:active { transform: scale(0.95); }
 
+        /* Créditos y Donaciones */
         .credits-area { margin-top: 40px; padding: 20px; text-align: center; max-width: 800px; color: #888; line-height: 1.4; border-top: 1px solid #333; }
         .credits-area a { color: var(--neon-green); text-decoration: none; border-bottom: 1px dashed; }
         .donation-box { margin-top: 20px; background: #111; padding: 15px; border: 1px solid #444; }
@@ -42,6 +49,7 @@
 
     <div class="tv-chassis">
         <div class="screen">
+            <!-- Reproductor de video de YouTube simple. La URL es inicializada por JS. -->
             <iframe id="youtube-iframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             <div class="overlay scanlines"></div>
             <div class="overlay vignette"></div>
@@ -75,6 +83,7 @@
     </div>
 
     <script>
+        // Definición de listas de reproducción
         const PLAYLISTS = [
             {vids: [{id: "V9yjeX7_m_I", loc: "Shinjuku, Tokyo 🇯🇵"}, {id: "F8MN0o6RS9o", loc: "Manhattan, NYC 🇺🇸"}, {id: "7km_7id7O9w", loc: "Paris by Night 🇫🇷"}]},
             {vids: [{id: "Y_8K5y8K8e4", loc: "Swiss Alps 🇨🇭"}, {id: "i3p6j0G1A_o", loc: "Norway Fjords 🇳🇴"}, {id: "6uS97A_13vY", loc: "Patagonia, Chile 🇨🇱"}]},
@@ -82,6 +91,7 @@
             {vids: [{id: "Su00m_XIn28", loc: "London Rain 🇬🇧"}, {id: "mPZkdNFkNps", loc: "Rainy Seoul 🇰🇷"}, {id: "gS_T78f0q8A", loc: "Seattle Mist 🇺🇸"}]}
         ];
 
+        // Detección de idioma básico
         const userLang = navigator.language || navigator.userLanguage;
         if (userLang.includes('es')) {
             document.getElementById('welcome-msg').innerText = "ESCAPA DE LA REALIDAD • TV LENTA INMERSIVA 4K";
@@ -89,18 +99,22 @@
             document.getElementById('signal').innerText = "SEÑAL: EXCELENTE";
         }
         
+        // Función principal para cambiar de canal (llamada por los botones y al cargar)
         function switchChannel(chIndex) {
             const channelVideos = PLAYLISTS[chIndex].vids;
+            // Selecciona un video aleatorio dentro de ese canal
             const randomVid = channelVideos[Math.floor(Math.random() * channelVideos.length)];
             
             const iframe = document.getElementById('youtube-iframe');
             
             // CONSTRUCCION DE URL CORREGIDA: Incluye /embed/
+            // Esta URL es válida y funcional.
             iframe.src = `https://www.youtube.com{randomVid.id}?autoplay=1&controls=1&modestbranding=1&rel=0&mute=1`;
 
             document.getElementById('ch-number').innerText = "CH-0" + (chIndex + 1);
             document.getElementById('location-label').innerText = "TUNING...";
             
+            // Simula el tiempo que tarda en cargar el nuevo video para actualizar la ubicación
             setTimeout(() => {
                 document.getElementById('location-label').innerText = randomVid.loc;
             }, 1500);
