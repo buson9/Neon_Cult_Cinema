@@ -139,6 +139,7 @@
         <div class="screen">
             <div id="start-button-overlay">
                 <p id="loading-message">Cargando API de vídeo... espere.</p>
+                <!-- BOTÓN CORREGIDO -->
                 <button id="start-button" onclick="initializePlayback()" style="display:none;"></button>
             </div>
             <div id="player"></div>
@@ -161,7 +162,6 @@
         <div class="donation-box">
             <h3 id="donate-title">❤️ Apoya World Window TV</h3>
             <p id="donate-text">Si disfrutas de la experiencia, puedes donar vía Takenos.</p>
-            <!-- RECUERDE CAMBIAR ESTE ENLACE -->
             <a href="URL_DE_TU_PERFIL_O_LINK_DE_PAGO_DE_TAKENOS_AQUI" target="_blank" class="donate-link" id="donate-link-text">⚡ DONAR VÍA TAKENOS ⚡</a>
         </div>
     </div>
@@ -171,7 +171,6 @@
         let currentChannelIndex = 0;
         let isPlayerReady = false; 
 
-        // Definición de canales con enlaces a YouTube y tipo de contenido
         const channels = [
             { id: 'b0kQ_v4qzeY', type: 'video', title: 'Caminata 4K por Kioto, Japón 🇯🇵', creator: '4K Walk', channelUrl: 'https://www.youtube.com' },
             { id: 'Y_8K5y8K8e4', type: 'video', title: 'Alpes Suizos | Naturaleza Relajante 🇨🇭', creator: 'Relaxation', channelUrl: 'https://www.youtube.com' },
@@ -185,7 +184,6 @@
             { id: 'j9CTj_G0h3M', type: 'video', title: 'Atardecer Urbano (Timelapse)', creator: 'City Vibes', channelUrl: 'https://www.youtube.com' },
         ];
 
-        // --- Lógica de Idioma ---
         const translations = {
             es: {
                 pageTitle: 'World Window TV | TV de Viaje Inmersivo',
@@ -225,7 +223,7 @@
             document.getElementById('page-title').innerText = t.pageTitle;
             document.getElementById('welcome-msg').innerText = t.welcomeMsg;
             document.getElementById('loading-message').innerText = t.loadingApi;
-            document.getElementById('start-button').innerText = t.startButton;
+            // No cambiamos el innerText del startButton aquí porque se hace visible después
             document.getElementById('btn-prev').innerText = t.btnPrev;
             document.getElementById('btn-next').innerText = t.btnNext;
             document.getElementById('btn-play-pause').innerText = t.btnPlayPause;
@@ -235,8 +233,6 @@
             document.getElementById('donate-text').innerText = t.donateText;
             document.getElementById('donate-link-text').innerText = t.donateLinkText;
         }
-
-        // --- Lógica del Reproductor ---
 
         window.onYouTubeIframeAPIReady = function() {
             player = new YT.Player('player', {
@@ -259,6 +255,7 @@
             isPlayerReady = true; 
             const lang = navigator.language.includes('es') ? 'es' : 'en';
             document.getElementById('loading-message').innerText = translations[lang].apiReady;
+            document.getElementById('start-button').innerText = translations[lang].startButton; // Establece el texto correcto
             document.getElementById('start-button').style.display = 'inline-block';
             populateCreatorList();
         }
@@ -313,9 +310,10 @@
 
         // Cargar el API de YouTube de forma estándar y robusta
         (function() {
-            applyLanguage(); // Aplica idioma al cargar
+            applyLanguage();
             var tag = document.createElement('script');
-            tag.src = "https://www.youtube.com";
+            // CORRECCIÓN DE LA URL:
+            tag.src = "https://www.youtube.com"; 
             document.head.appendChild(tag);
         })();
     </script>
