@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TELEPORT TV | Canales de Relajación</title>
     
-    <!-- Eliminadas fuentes externas para compatibilidad con servidores locales simples, se usan fuentes genéricas -->
-    
     <style>
         :root {
             --primary-blue: #00BFFF; /* Azul cielo brillante */
@@ -262,7 +260,6 @@
         let isPlayerReady = false; 
 
         const channels = [
-            // He añadido un campo 'channelUrl' para el enlace directo.
             { id: 'PLz_h7QkhQo5aQe0D8xWJ8pBw5t9wX9f7n', type: 'playlist', title: 'Música Relajante (Playlist)', creator: 'Soothing Relaxation', category: 'Playlist', channelUrl: 'https://www.youtube.com' },
             { id: '1ZYbU82ACC8', type: 'video', title: 'Sonidos de Lluvia y Truenos', creator: 'RelaxationSounds', category: 'Naturaleza', channelUrl: 'https://www.youtube.com' },
             { id: 'S_ncU_qX1V8', type: 'video', title: 'Olas del Océano y Playa', creator: 'Nature Relaxation', category: 'Naturaleza', channelUrl: 'https://www.youtube.com' },
@@ -285,6 +282,7 @@
             { id: '9hXQo9hM-i4', type: 'video', title: 'Viento en los Árboles (Sonidos)', creator: 'Nature Sounds', category: 'Naturaleza', channelUrl: 'https://www.youtube.com' },
         ];
 
+        // Se asegura de que la función onYouTubeIframeAPIReady sea global y esté disponible para la API
         window.onYouTubeIframeAPIReady = function() {
             player = new YT.Player('player', {
                 videoId: '',
@@ -377,9 +375,11 @@
             });
         }
 
+        // Cargar el API de YouTube de forma estándar y robusta
         (function() {
-            const tag = document.createElement('script');
+            var tag = document.createElement('script');
             tag.src = "https://www.youtube.com";
+            // Usamos document.head.appendChild para garantizar que se inserte correctamente.
             document.head.appendChild(tag);
         })();
 
