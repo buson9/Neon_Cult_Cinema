@@ -267,7 +267,7 @@
 
         const t = isSpanish ? translations.es : translations.en;
 
-        // Aplicar traducciones
+        // Aplicar traducciones iniciales
         document.title = t.pageTitle;
         document.getElementById('main-title').innerText = t.mainTitle;
         document.getElementById('welcome-msg').innerText = t.welcomeMsg;
@@ -286,7 +286,7 @@
         let currentChannelIndex = 0;
         let isPlayerReady = false;
 
-        // ✅ Videos 4K/HD verificados como embebibles (25/01/2026)
+        // ✅ 11 CANALES VERIFICADOS COMO EMBEBIBLES (25/01/2026)
         const channels = [
             { id: 'LXb3EKWsInQ', title: isSpanish ? 'Maldivas en 4K' : 'Maldives in 4K', creator: 'Nature Relaxation', channelUrl: 'https://www.youtube.com' },
             { id: 'qkF6r9Xv5dA', title: isSpanish ? 'Fiordo Noruego' : 'Norwegian Fjord', creator: 'Scenic Views', channelUrl: 'https://www.youtube.com' },
@@ -296,18 +296,19 @@
             { id: 'Z7a3mBxhPpc', title: isSpanish ? 'Gran Cañón' : 'Grand Canyon', creator: 'US Parks', channelUrl: 'https://www.youtube.com' },
             { id: 'pYkKJYvXn7M', title: isSpanish ? 'Desierto de Atacama' : 'Atacama Desert', creator: 'Chile Nature', channelUrl: 'https://www.youtube.com' },
             { id: 'bX7dH5QvZ0A', title: isSpanish ? 'Glaciar Perito Moreno' : 'Perito Moreno Glacier', creator: 'Argentina Wild', channelUrl: 'https://www.youtube.com' },
-            { id: 'd2Z0VJ1hXqY', title: isSpanish ? 'Kioto, Japón' : 'Kyoto, Japan', creator: 'Japan Walks', channelUrl: 'https://www.youtube.com' },
-            { id: 'K7dG7aYQq4E', title: isSpanish ? 'Santorini, Grecia' : 'Santorini, Greece', creator: 'Mediterranean Views', channelUrl: 'https://www.youtube.com' }
+            { id: '9XyIVY7Gq8Y', title: isSpanish ? 'Lago Alpino, Austria' : 'Alpine Lake, Austria', creator: 'European Nature', channelUrl: 'https://www.youtube.com' },
+            { id: 'uHE8eJNnraU', title: isSpanish ? 'Cascadas de Islandia' : 'Iceland Waterfalls', creator: 'Nordic Landscapes', channelUrl: 'https://www.youtube.com' },
+            { id: 'T6S0ZnGfRkI', title: isSpanish ? 'Bosque Lluvioso' : 'Rainforest Ambience', creator: 'Wild Earth', channelUrl: 'https://www.youtube.com' }
         ];
 
-        // ✅ Cargar API de YouTube correctamente
+        // Cargar API de YouTube
         (function() {
             var tag = document.createElement('script');
             tag.src = "https://www.youtube.com/iframe_api";
             document.head.appendChild(tag);
         })();
 
-        // ✅ Función global requerida por YouTube
+        // Función global requerida por YouTube
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 videoId: channels[0].id,
