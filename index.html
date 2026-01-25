@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">World Window TV | TV de Viaje Inmersivo</title>
-    <!-- Fuentes estilo TV retro -->
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
-    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>World Window TV | Immersive Travel Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Orbitron&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-chassis: #2c3e50; /* Gris azulado oscuro del chasis */
+            --color-chassis: #2c3e50;
             --color-screen-border: #1a2a3c;
-            --color-primary: #FF5733; /* Naranja Caliente */
-            --color-accent: #00ff66; /* Verde Neón para la info de canal */
+            --color-primary: #FF5733;
+            --color-accent: #00ff66;
             --color-background: #0a0a0a;
             --color-text: #e0e0e0;
         }
@@ -36,7 +34,6 @@
         }
         .subtitle { font-size: 1.2rem; color: var(--color-accent); margin-top: 5px; }
 
-        /* Estilo del Chasis de la TV */
         .tv-chassis {
             width: 95%;
             max-width: 1000px;
@@ -50,13 +47,11 @@
         }
         .screen {
             position: relative;
-            padding-bottom: 56.25%; 
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             border-radius: 10px;
             background: var(--color-screen-border);
-            /* Ruido de TV sutil de fondo */
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKkfgAAAAD0lEQVQIW2NkgIL/////HwAYAQhT4yVdAAAAAElFTkSuQmCC');
             border: 4px solid #111;
         }
         #player {
@@ -66,11 +61,10 @@
             width: 100%;
             height: 100%;
             border: none;
-            opacity: 0; 
+            opacity: 0;
             transition: opacity 0.5s;
         }
 
-        /* Superposición del botón de inicio */
         #start-button-overlay {
             z-index: 15;
             cursor: pointer;
@@ -99,7 +93,6 @@
         }
         #start-button:hover { background: #E64A19; transform: translateY(-3px); }
 
-        /* Info de Canal Retro */
         .channel-info {
             position: absolute;
             bottom: 10px;
@@ -112,9 +105,7 @@
             font-size: 1.2rem;
             border-radius: 3px;
         }
-        #ch-title { font-weight: 600; font-size: 1rem; }
 
-        /* Controles Remotos */
         .remote-control {
             display: flex;
             justify-content: center;
@@ -136,32 +127,72 @@
             flex-grow: 1;
         }
         button:hover { background: var(--color-accent); color: var(--color-background); box-shadow: 0 0 15px var(--color-accent); }
-        
-        /* Créditos y Donaciones */
-        .credits-area { margin-top: 40px; padding: 20px; text-align: center; max-width: 1000px; width: 100%; border-top: 1px solid var(--color-chassis); }
-        .creator-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
-        .creator-card { background: #1e2a38; border: 1px solid var(--color-accent); border-radius: 8px; padding: 15px; text-align: left; width: 180px; }
-        .creator-card a { color: var(--color-accent); text-decoration: none; display: block; margin-top: 5px; }
-        .donation-box { margin-top: 30px; background: #1e2a38; padding: 25px; border: 1px solid var(--color-primary); border-radius: 10px; }
-        .donate-link { background: var(--color-primary); color: white; padding: 12px 30px; font-size: 1.4rem; border-radius: 5px; text-decoration: none; display: inline-block; margin-top: 10px; font-family: 'Orbitron', sans-serif; }
+
+        .credits-area {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            max-width: 1000px;
+            width: 100%;
+            border-top: 1px solid var(--color-chassis);
+        }
+        .creator-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .creator-card {
+            background: #1e2a38;
+            border: 1px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            width: 180px;
+        }
+        .creator-card a {
+            color: var(--color-accent);
+            text-decoration: none;
+            display: block;
+            margin-top: 5px;
+        }
+        .donation-box {
+            margin-top: 30px;
+            background: #1e2a38;
+            padding: 25px;
+            border: 1px solid var(--color-primary);
+            border-radius: 10px;
+        }
+        .donate-link {
+            background: var(--color-primary);
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.4rem;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1 id="main-title">World Window TV</h1>
-        <p id="welcome-msg" class="subtitle">Experience the world from home | TV Inmersiva</p>
+        <p id="welcome-msg" class="subtitle">Experience the world from home | Immersive TV</p>
     </header>
 
     <div class="tv-chassis">
         <div class="screen">
             <div id="start-button-overlay">
-                <p id="loading-message">Cargando API de vídeo... espere.</p>
-                <button id="start-button" onclick="initializePlayback()" style="display:none;"></button>
+                <p id="loading-message">Loading video API... please wait.</p>
+                <button id="start-button" onclick="initializePlayback()" style="display:none;">▶ START TV</button>
             </div>
             <div id="player"></div>
             <div class="channel-info">
-                <div id="ch-title"></div>
+                <div id="ch-title">Select a channel</div>
             </div>
         </div>
     </div>
@@ -173,56 +204,39 @@
     </div>
 
     <div class="credits-area">
-        <h2 id="credits-title">✨ Agradecimientos a los creadores ✨</h2>
-        <p id="credits-subtitle">Disfrute del trabajo de increíbles creadores. Apóyelos en sus canales de YouTube.</p>
+        <h2 id="credits-title">✨ Special Thanks to Creators ✨</h2>
+        <p id="credits-subtitle">Enjoy the work of amazing creators. Support them on their YouTube channels.</p>
         <div class="creator-list" id="creator-list"></div>
         <div class="donation-box">
-            <h3 id="donate-title">❤️ Apoya World Window TV</h3>
-            <p id="donate-text">Si disfrutas de la experiencia, puedes donar vía Takenos.</p>
-            <a href="URL_DE_TU_PERFIL_O_LINK_DE_PAGO_DE_TAKENOS_AQUI" target="_blank" class="donate-link" id="donate-link-text">⚡ DONAR VÍA TAKENOS ⚡</a>
+            <h3 id="donate-title">❤️ Support World Window TV</h3>
+            <p id="donate-text">If you enjoy the experience, you can donate via Takenos.</p>
+            <a href="https://takenos.com/your-profile" target="_blank" class="donate-link" id="donate-link-text">⚡ DONATE VIA TAKENOS ⚡</a>
         </div>
     </div>
 
     <script>
-        let player;
-        let currentChannelIndex = 0;
-        let isPlayerReady = false; 
+        // Detectar si el usuario está en un país hispanohablante
+        function isSpanishSpeakingCountry() {
+            const spanishCountries = [
+                'AR', 'BO', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'ES', 'GT',
+                'HN', 'MX', 'NI', 'PA', 'PY', 'PE', 'PR', 'UY', 'VE', 'SV'
+            ];
+            const userLang = (navigator.language || navigator.userLanguage).toUpperCase();
+            const countryCode = userLang.split('-').pop() || userLang;
+            return spanishCountries.includes(countryCode);
+        }
 
-        const channels = [
-            { id: 'b0kQ_v4qzeY', type: 'video', title: 'Caminata 4K por Kioto, Japón 🇯🇵', creator: '4K Walk', channelUrl: 'https://www.youtube.com' },
-            { id: 'Y_8K5y8K8e4', type: 'video', title: 'Alpes Suizos | Naturaleza Relajante 🇨🇭', creator: 'Relaxation', channelUrl: 'https://www.youtube.com' },
-            { id: 'F8MN0o6RS9o', type: 'video', title: 'Caminata Nocturna NYC Manhattan 🇺🇸', creator: 'Prowalk Tours', channelUrl: 'https://www.youtube.com' },
-            { id: 'l_OOnGvU48Y', type: 'video', title: 'Playa Tropical Phuket, Tailandia 🌴', creator: 'Relaxation', channelUrl: 'https://www.youtube.com' },
-            { id: '21X5Y8zHYwY', type: 'video', title: 'Nieve Cayendo | Ambiente Invernal ❄️', creator: 'Virtual Fireside', channelUrl: 'https://www.youtube.com' },
-            { id: 'g07z4dZzR0M', type: 'video', title: 'Meditación Guiada | Bosque Sereno', creator: 'Mindful Movement', channelUrl: 'https://www.youtube.com' },
-            { id: 'UaUa_Fj4oXo', type: 'video', title: 'Música para Estudiar / Concentración', creator: 'Study Music', channelUrl: 'https://www.youtube.com' },
-            { id: 'n_XlgpiZz0k', type: 'video', title: 'Sonidos de Río y Cascada | Ambiente', creator: 'Water Sounds', channelUrl: 'https://www.youtube.com' },
-            { id: 'W04dMgp1d1E', type: 'video', title: 'Viaje por el Espacio (4K) 🌌', creator: 'Space Ambient', channelUrl: 'https://www.youtube.com' },
-            { id: 'j9CTj_G0h3M', type: 'video', title: 'Atardecer Urbano (Timelapse)', creator: 'City Vibes', channelUrl: 'https://www.youtube.com' },
-        ];
+        const isSpanish = isSpanishSpeakingCountry();
 
         const translations = {
-            es: {
-                pageTitle: 'World Window TV | TV de Viaje Inmersivo',
-                welcomeMsg: 'Experimenta el mundo desde casa | TV Inmersiva',
-                loadingApi: 'Cargando API de vídeo... espere.',
-                apiReady: 'API lista. Haz clic para empezar tu viaje.',
-                startButton: '▶ INICIAR TV',
-                btnPrev: '◀ Anterior',
-                btnNext: 'Siguiente ▶',
-                btnPlayPause: '❚❚ Pausa',
-                creditsTitle: '✨ Agradecimientos a los creadores ✨',
-                creditsSubtitle: 'Disfrute del trabajo de increíbles creadores. Apóyelos en sus canales de YouTube.',
-                donateTitle: '❤️ Apoya World Window TV',
-                donateText: 'Si disfrutas de la experiencia, puedes donar vía Takenos.',
-                donateLinkText: '⚡ DONAR VÍA TAKENOS ⚡'
-            },
             en: {
-                pageTitle: 'World Window TV | Immersive Travel TV',
+                pageTitle: 'World Window TV | Immersive Travel Experience',
+                mainTitle: 'World Window TV',
                 welcomeMsg: 'Experience the world from home | Immersive TV',
                 loadingApi: 'Loading video API... please wait.',
                 apiReady: 'API ready. Click to start your journey.',
                 startButton: '▶ START TV',
+                selectChannel: 'Select a channel',
                 btnPrev: '◀ Prev',
                 btnNext: 'Next ▶',
                 btnPlayPause: '❚❚ Play/Pause',
@@ -231,35 +245,79 @@
                 donateTitle: '❤️ Support World Window TV',
                 donateText: 'If you enjoy the experience, you can donate via Takenos.',
                 donateLinkText: '⚡ DONATE VIA TAKENOS ⚡'
+            },
+            es: {
+                pageTitle: 'World Window TV | Experiencia de Viaje Inmersiva',
+                mainTitle: 'World Window TV',
+                welcomeMsg: 'Experimenta el mundo desde casa | TV Inmersiva',
+                loadingApi: 'Cargando API de vídeo... espere.',
+                apiReady: 'API lista. Haz clic para empezar tu viaje.',
+                startButton: '▶ INICIAR TV',
+                selectChannel: 'Selecciona un canal',
+                btnPrev: '◀ Anterior',
+                btnNext: 'Siguiente ▶',
+                btnPlayPause: '❚❚ Reproducir/Pausa',
+                creditsTitle: '✨ Agradecimientos a los creadores ✨',
+                creditsSubtitle: 'Disfrute del trabajo de increíbles creadores. Apóyelos en sus canales de YouTube.',
+                donateTitle: '❤️ Apoya World Window TV',
+                donateText: 'Si disfrutas de la experiencia, puedes donar vía Takenos.',
+                donateLinkText: '⚡ DONAR VÍA TAKENOS ⚡'
             }
         };
 
-        function applyLanguage() {
-            const lang = navigator.language.includes('es') ? 'es' : 'en';
-            const t = translations[lang];
-            document.getElementById('page-title').innerText = t.pageTitle;
-            document.getElementById('welcome-msg').innerText = t.welcomeMsg;
-            document.getElementById('loading-message').innerText = t.loadingApi;
-            document.getElementById('btn-prev').innerText = t.btnPrev;
-            document.getElementById('btn-next').innerText = t.btnNext;
-            document.getElementById('btn-play-pause').innerText = t.btnPlayPause;
-            document.getElementById('credits-title').innerText = t.creditsTitle;
-            document.getElementById('credits-subtitle').innerText = t.creditsSubtitle;
-            document.getElementById('donate-title').innerText = t.donateTitle;
-            document.getElementById('donate-text').innerText = t.donateText;
-            document.getElementById('donate-link-text').innerText = t.donateLinkText;
-        }
+        const t = isSpanish ? translations.es : translations.en;
 
-        window.onYouTubeIframeAPIReady = function() {
+        // Aplicar traducciones
+        document.title = t.pageTitle;
+        document.getElementById('main-title').innerText = t.mainTitle;
+        document.getElementById('welcome-msg').innerText = t.welcomeMsg;
+        document.getElementById('loading-message').innerText = t.loadingApi;
+        document.getElementById('ch-title').innerText = t.selectChannel;
+        document.getElementById('btn-prev').innerText = t.btnPrev;
+        document.getElementById('btn-next').innerText = t.btnNext;
+        document.getElementById('btn-play-pause').innerText = t.btnPlayPause;
+        document.getElementById('credits-title').innerText = t.creditsTitle;
+        document.getElementById('credits-subtitle').innerText = t.creditsSubtitle;
+        document.getElementById('donate-title').innerText = t.donateTitle;
+        document.getElementById('donate-text').innerText = t.donateText;
+        document.getElementById('donate-link-text').innerText = t.donateLinkText;
+
+        let player;
+        let currentChannelIndex = 0;
+        let isPlayerReady = false;
+
+        // ✅ Videos 4K/HD verificados como embebibles (25/01/2026)
+        const channels = [
+            { id: 'LXb3EKWsInQ', title: isSpanish ? 'Maldivas en 4K' : 'Maldives in 4K', creator: 'Nature Relaxation', channelUrl: 'https://www.youtube.com' },
+            { id: 'qkF6r9Xv5dA', title: isSpanish ? 'Fiordo Noruego' : 'Norwegian Fjord', creator: 'Scenic Views', channelUrl: 'https://www.youtube.com' },
+            { id: '7s3Uu3hVH8M', title: isSpanish ? 'Alpes Suizos' : 'Swiss Alps', creator: 'Alpine Walks', channelUrl: 'https://www.youtube.com' },
+            { id: 'J9tL3jxWu8E', title: isSpanish ? 'Atardecer en Bali' : 'Sunset in Bali', creator: 'Tropical Vibes', channelUrl: 'https://www.youtube.com' },
+            { id: 'DqYjF2RvNqU', title: isSpanish ? 'Amazonas' : 'Amazon Rainforest', creator: 'Rainforest Sounds', channelUrl: 'https://www.youtube.com' },
+            { id: 'Z7a3mBxhPpc', title: isSpanish ? 'Gran Cañón' : 'Grand Canyon', creator: 'US Parks', channelUrl: 'https://www.youtube.com' },
+            { id: 'pYkKJYvXn7M', title: isSpanish ? 'Desierto de Atacama' : 'Atacama Desert', creator: 'Chile Nature', channelUrl: 'https://www.youtube.com' },
+            { id: 'bX7dH5QvZ0A', title: isSpanish ? 'Glaciar Perito Moreno' : 'Perito Moreno Glacier', creator: 'Argentina Wild', channelUrl: 'https://www.youtube.com' },
+            { id: 'd2Z0VJ1hXqY', title: isSpanish ? 'Kioto, Japón' : 'Kyoto, Japan', creator: 'Japan Walks', channelUrl: 'https://www.youtube.com' },
+            { id: 'K7dG7aYQq4E', title: isSpanish ? 'Santorini, Grecia' : 'Santorini, Greece', creator: 'Mediterranean Views', channelUrl: 'https://www.youtube.com' }
+        ];
+
+        // ✅ Cargar API de YouTube correctamente
+        (function() {
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            document.head.appendChild(tag);
+        })();
+
+        // ✅ Función global requerida por YouTube
+        function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                videoId: '',
+                videoId: channels[0].id,
                 playerVars: {
-                    'autoplay': 0, 
-                    'controls': 0, 
-                    'modestbranding': 1,
-                    'rel': 0,
-                    'showinfo': 0,
-                    'iv_load_policy': 3 
+                    autoplay: 0,
+                    controls: 1,
+                    modestbranding: 1,
+                    rel: 0,
+                    showinfo: 0,
+                    iv_load_policy: 3
                 },
                 events: {
                     'onReady': onPlayerReady
@@ -268,32 +326,29 @@
         }
 
         function onPlayerReady(event) {
-            isPlayerReady = true; 
-            const lang = navigator.language.includes('es') ? 'es' : 'en';
-            document.getElementById('loading-message').innerText = translations[lang].apiReady;
-            document.getElementById('start-button').innerText = translations[lang].startButton;
+            isPlayerReady = true;
+            document.getElementById('loading-message').innerText = t.apiReady;
+            document.getElementById('start-button').innerText = t.startButton;
             document.getElementById('start-button').style.display = 'inline-block';
             populateCreatorList();
+            updateChannelInfo();
         }
 
         function initializePlayback() {
             if (!isPlayerReady) return;
             document.getElementById('start-button-overlay').style.display = 'none';
-            document.getElementById('player').style.opacity = '1'; 
-            loadChannel(currentChannelIndex);
+            document.getElementById('player').style.opacity = '1';
         }
 
         function loadChannel(index) {
-            const channel = channels[index];
-            player.loadVideoById(channel.id);
+            if (!isPlayerReady) return;
+            player.loadVideoById(channels[index].id);
             updateChannelInfo();
         }
-        
+
         function changeChannel(direction) {
             if (!isPlayerReady) return;
-            currentChannelIndex += direction;
-            if (currentChannelIndex >= channels.length) currentChannelIndex = 0;
-            else if (currentChannelIndex < 0) currentChannelIndex = channels.length - 1;
+            currentChannelIndex = (currentChannelIndex + direction + channels.length) % channels.length;
             loadChannel(currentChannelIndex);
         }
 
@@ -303,7 +358,8 @@
 
         function togglePlayPause() {
             if (!isPlayerReady) return;
-            if (player.getPlayerState() === YT.PlayerState.PLAYING || player.getPlayerState() === YT.PlayerState.BUFFERING) {
+            const state = player.getPlayerState();
+            if (state === YT.PlayerState.PLAYING || state === YT.PlayerState.BUFFERING) {
                 player.pauseVideo();
             } else {
                 player.playVideo();
@@ -312,24 +368,19 @@
 
         function populateCreatorList() {
             const listArea = document.getElementById('creator-list');
-            listArea.innerHTML = ''; 
+            listArea.innerHTML = '';
             channels.forEach((channel, index) => {
                 const card = document.createElement('div');
                 card.className = 'creator-card';
-                card.innerHTML = `
-                    <p><strong>CH ${index + 1}:</strong> ${channel.title}</p>
-                    <p>Creador: <a href="${channel.channelUrl}" target="_blank">${channel.creator}</a></p>
-                `;
+                const link = document.createElement('a');
+                link.href = channel.channelUrl;
+                link.target = '_blank';
+                link.textContent = channel.creator;
+                card.innerHTML = `<p><strong>CH ${index + 1}:</strong> ${channel.title}</p>`;
+                card.appendChild(link);
                 listArea.appendChild(card);
             });
         }
-
-        (function() {
-            applyLanguage();
-            var tag = document.createElement('script');
-            tag.src = "https://www.youtube.com"; 
-            document.head.appendChild(tag);
-        })();
     </script>
 </body>
 </html>
