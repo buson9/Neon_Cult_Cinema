@@ -215,98 +215,91 @@
     </div>
 
     <script>
-        // Detectar si el usuario está en un país hispanohablante
+        // --- Detección de idioma ---
         function isSpanishSpeakingCountry() {
-            const spanishCountries = [
-                'AR', 'BO', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'ES', 'GT',
-                'HN', 'MX', 'NI', 'PA', 'PY', 'PE', 'PR', 'UY', 'VE', 'SV'
-            ];
-            const userLang = (navigator.language || navigator.userLanguage).toUpperCase();
-            const countryCode = userLang.split('-').pop() || userLang;
-            return spanishCountries.includes(countryCode);
+            const spanishCountries = ['AR','BO','CL','CO','CR','CU','DO','EC','ES','GT','HN','MX','NI','PA','PY','PE','PR','UY','VE','SV'];
+            const lang = (navigator.language || 'en').toUpperCase();
+            const code = lang.includes('-') ? lang.split('-')[1] : lang;
+            return spanishCountries.includes(code);
         }
-
         const isSpanish = isSpanishSpeakingCountry();
 
-        const translations = {
-            en: {
-                pageTitle: 'World Window TV | Immersive Travel Experience',
-                mainTitle: 'World Window TV',
-                welcomeMsg: 'Experience the world from home | Immersive TV',
-                loadingApi: 'Loading video API... please wait.',
-                apiReady: 'API ready. Click to start your journey.',
-                startButton: '▶ START TV',
-                selectChannel: 'Select a channel',
-                btnPrev: '◀ Prev',
-                btnNext: 'Next ▶',
-                btnPlayPause: '❚❚ Play/Pause',
-                creditsTitle: '✨ Special Thanks to Creators ✨',
-                creditsSubtitle: 'Enjoy the work of amazing creators. Support them on their YouTube channels.',
-                donateTitle: '❤️ Support World Window TV',
-                donateText: 'If you enjoy the experience, you can donate via Takenos.',
-                donateLinkText: '⚡ DONATE VIA TAKENOS ⚡'
-            },
-            es: {
-                pageTitle: 'World Window TV | Experiencia de Viaje Inmersiva',
-                mainTitle: 'World Window TV',
-                welcomeMsg: 'Experimenta el mundo desde casa | TV Inmersiva',
-                loadingApi: 'Cargando API de vídeo... espere.',
-                apiReady: 'API lista. Haz clic para empezar tu viaje.',
-                startButton: '▶ INICIAR TV',
-                selectChannel: 'Selecciona un canal',
-                btnPrev: '◀ Anterior',
-                btnNext: 'Siguiente ▶',
-                btnPlayPause: '❚❚ Reproducir/Pausa',
-                creditsTitle: '✨ Agradecimientos a los creadores ✨',
-                creditsSubtitle: 'Disfrute del trabajo de increíbles creadores. Apóyelos en sus canales de YouTube.',
-                donateTitle: '❤️ Apoya World Window TV',
-                donateText: 'Si disfrutas de la experiencia, puedes donar vía Takenos.',
-                donateLinkText: '⚡ DONAR VÍA TAKENOS ⚡'
-            }
+        const t = isSpanish ? {
+            pageTitle: 'World Window TV | Experiencia de Viaje Inmersiva',
+            mainTitle: 'World Window TV',
+            welcomeMsg: 'Experimenta el mundo desde casa | TV Inmersiva',
+            loadingApi: 'Cargando API de vídeo... espere.',
+            apiReady: 'API lista. Haz clic para empezar tu viaje.',
+            startButton: '▶ INICIAR TV',
+            selectChannel: 'Selecciona un canal',
+            btnPrev: '◀ Anterior',
+            btnNext: 'Siguiente ▶',
+            btnPlayPause: '❚❚ Reproducir/Pausa',
+            creditsTitle: '✨ Agradecimientos a los creadores ✨',
+            creditsSubtitle: 'Disfrute del trabajo de increíbles creadores. Apóyelos en sus canales de YouTube.',
+            donateTitle: '❤️ Apoya World Window TV',
+            donateText: 'Si disfrutas de la experiencia, puedes donar vía Takenos.',
+            donateLinkText: '⚡ DONAR VÍA TAKENOS ⚡'
+        } : {
+            pageTitle: 'World Window TV | Immersive Travel Experience',
+            mainTitle: 'World Window TV',
+            welcomeMsg: 'Experience the world from home | Immersive TV',
+            loadingApi: 'Loading video API... please wait.',
+            apiReady: 'API ready. Click to start your journey.',
+            startButton: '▶ START TV',
+            selectChannel: 'Select a channel',
+            btnPrev: '◀ Prev',
+            btnNext: 'Next ▶',
+            btnPlayPause: '❚❚ Play/Pause',
+            creditsTitle: '✨ Special Thanks to Creators ✨',
+            creditsSubtitle: 'Enjoy the work of amazing creators. Support them on their YouTube channels.',
+            donateTitle: '❤️ Support World Window TV',
+            donateText: 'If you enjoy the experience, you can donate via Takenos.',
+            donateLinkText: '⚡ DONATE VIA TAKENOS ⚡'
         };
 
-        const t = isSpanish ? translations.es : translations.en;
-
         document.title = t.pageTitle;
-        document.getElementById('main-title').innerText = t.mainTitle;
-        document.getElementById('welcome-msg').innerText = t.welcomeMsg;
-        document.getElementById('loading-message').innerText = t.loadingApi;
-        document.getElementById('ch-title').innerText = t.selectChannel;
-        document.getElementById('btn-prev').innerText = t.btnPrev;
-        document.getElementById('btn-next').innerText = t.btnNext;
-        document.getElementById('btn-play-pause').innerText = t.btnPlayPause;
-        document.getElementById('credits-title').innerText = t.creditsTitle;
-        document.getElementById('credits-subtitle').innerText = t.creditsSubtitle;
-        document.getElementById('donate-title').innerText = t.donateTitle;
-        document.getElementById('donate-text').innerText = t.donateText;
-        document.getElementById('donate-link-text').innerText = t.donateLinkText;
+        document.getElementById('main-title').textContent = t.mainTitle;
+        document.getElementById('welcome-msg').textContent = t.welcomeMsg;
+        document.getElementById('loading-message').textContent = t.loadingApi;
+        document.getElementById('ch-title').textContent = t.selectChannel;
+        document.getElementById('btn-prev').textContent = t.btnPrev;
+        document.getElementById('btn-next').textContent = t.btnNext;
+        document.getElementById('btn-play-pause').textContent = t.btnPlayPause;
+        document.getElementById('credits-title').textContent = t.creditsTitle;
+        document.getElementById('credits-subtitle').textContent = t.creditsSubtitle;
+        document.getElementById('donate-title').textContent = t.donateTitle;
+        document.getElementById('donate-text').textContent = t.donateText;
+        document.getElementById('donate-link-text').textContent = t.donateLinkText;
 
-        let player;
-        let currentChannelIndex = 0;
-        let isPlayerReady = false;
-
-        // ✅ SOLO 8 CANALES VERIFICADOS COMO EMBEBIBLES (25/01/2026)
+        // --- Lista de canales VERIFICADOS (8) ---
         const channels = [
-            { id: 'LXb3EKWsInQ', title: isSpanish ? 'Maldivas en 4K' : 'Maldives in 4K', creator: 'Nature Relaxation', channelUrl: 'https://www.youtube.com/@NatureRelaxation' },
-            { id: 'qkF6r9Xv5dA', title: isSpanish ? 'Fiordo Noruego' : 'Norwegian Fjord', creator: 'Scenic Views', channelUrl: 'https://www.youtube.com/@ScenicViews' },
-            { id: '7s3Uu3hVH8M', title: isSpanish ? 'Alpes Suizos' : 'Swiss Alps', creator: 'Alpine Walks', channelUrl: 'https://www.youtube.com/@AlpineWalks' },
-            { id: 'pYkKJYvXn7M', title: isSpanish ? 'Desierto de Atacama' : 'Atacama Desert', creator: 'Chile Nature', channelUrl: 'https://www.youtube.com/@ChileNature' },
-            { id: 'bX7dH5QvZ0A', title: isSpanish ? 'Glaciar Perito Moreno' : 'Perito Moreno Glacier', creator: 'Argentina Wild', channelUrl: 'https://www.youtube.com/@ArgentinaWild' },
-            { id: '9XyIVY7Gq8Y', title: isSpanish ? 'Lago Alpino, Austria' : 'Alpine Lake, Austria', creator: 'European Nature', channelUrl: 'https://www.youtube.com/@EuropeanNature' },
-            { id: 'uHE8eJNnraU', title: isSpanish ? 'Cascadas de Islandia' : 'Iceland Waterfalls', creator: 'Nordic Landscapes', channelUrl: 'https://www.youtube.com/@NordicLandscapes' },
-            { id: 'T6S0ZnGfRkI', title: isSpanish ? 'Bosque Lluvioso' : 'Rainforest Ambience', creator: 'Wild Earth', channelUrl: 'https://www.youtube.com/@WildEarth' }
+            { id: 'LXb3EKWsInQ', title: isSpanish ? 'Maldivas en 4K' : 'Maldives in 4K', creator: 'Nature Relaxation', url: 'https://www.youtube.com/@NatureRelaxation' },
+            { id: 'qkF6r9Xv5dA', title: isSpanish ? 'Fiordo Noruego' : 'Norwegian Fjord', creator: 'Scenic Views', url: 'https://www.youtube.com/@ScenicViews' },
+            { id: '7s3Uu3hVH8M', title: isSpanish ? 'Alpes Suizos' : 'Swiss Alps', creator: 'Alpine Walks', url: 'https://www.youtube.com/@AlpineWalks' },
+            { id: 'pYkKJYvXn7M', title: isSpanish ? 'Desierto de Atacama' : 'Atacama Desert', creator: 'Chile Nature', url: 'https://www.youtube.com/@ChileNature' },
+            { id: 'bX7dH5QvZ0A', title: isSpanish ? 'Glaciar Perito Moreno' : 'Perito Moreno Glacier', creator: 'Argentina Wild', url: 'https://www.youtube.com/@ArgentinaWild' },
+            { id: '9XyIVY7Gq8Y', title: isSpanish ? 'Lago Alpino, Austria' : 'Alpine Lake, Austria', creator: 'European Nature', url: 'https://www.youtube.com/@EuropeanNature' },
+            { id: 'uHE8eJNnraU', title: isSpanish ? 'Cascadas de Islandia' : 'Iceland Waterfalls', creator: 'Nordic Landscapes', url: 'https://www.youtube.com/@NordicLandscapes' },
+            { id: 'T6S0ZnGfRkI', title: isSpanish ? 'Bosque Lluvioso' : 'Rainforest Ambience', creator: 'Wild Earth', url: 'https://www.youtube.com/@WildEarth' }
         ];
 
-        // Cargar API de YouTube
-        (function() {
-            var tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            document.head.appendChild(tag);
+        let player;
+        let currentIdx = 0;
+        let isReady = false;
+
+        // ✅ Cargar API SIN ESPACIOS
+        (function loadYouTubeAPI() {
+            const script = document.createElement('script');
+            script.src = 'https://www.youtube.com/iframe_api';
+            script.async = true;
+            document.head.appendChild(script);
         })();
 
-        function onYouTubeIframeAPIReady() {
+        // ✅ Función global requerida por YouTube
+        window.onYouTubeIframeAPIReady = function() {
             player = new YT.Player('player', {
-                videoId: channels[0].id,
+                videoId: channels[0].id.trim(),
                 playerVars: {
                     autoplay: 0,
                     controls: 1,
@@ -316,65 +309,52 @@
                     iv_load_policy: 3
                 },
                 events: {
-                    'onReady': onPlayerReady
+                    onReady: () => {
+                        isReady = true;
+                        document.getElementById('loading-message').textContent = t.apiReady;
+                        document.getElementById('start-button').textContent = t.startButton;
+                        document.getElementById('start-button').style.display = 'inline-block';
+                        populateList();
+                    },
+                    onError: (e) => {
+                        console.error('YouTube Error:', e.data);
+                        document.getElementById('ch-title').textContent = '⚠️ Error. Cambiando canal...';
+                        setTimeout(() => changeChannel(1), 2000);
+                    }
                 }
             });
-        }
-
-        function onPlayerReady(event) {
-            isPlayerReady = true;
-            document.getElementById('loading-message').innerText = t.apiReady;
-            document.getElementById('start-button').innerText = t.startButton;
-            document.getElementById('start-button').style.display = 'inline-block';
-            populateCreatorList();
-            updateChannelInfo();
-        }
+        };
 
         function initializePlayback() {
-            if (!isPlayerReady) return;
+            if (!isReady) return;
             document.getElementById('start-button-overlay').style.display = 'none';
             document.getElementById('player').style.opacity = '1';
         }
 
-        function loadChannel(index) {
-            if (!isPlayerReady) return;
-            player.loadVideoById(channels[index].id);
-            updateChannelInfo();
-        }
-
-        function changeChannel(direction) {
-            if (!isPlayerReady) return;
-            currentChannelIndex = (currentChannelIndex + direction + channels.length) % channels.length;
-            loadChannel(currentChannelIndex);
-        }
-
-        function updateChannelInfo() {
-            document.getElementById('ch-title').innerText = channels[currentChannelIndex].title;
+        function changeChannel(dir) {
+            if (!isReady) return;
+            currentIdx = (currentIdx + dir + channels.length) % channels.length;
+            const id = channels[currentIdx].id.trim();
+            player.loadVideoById(id);
+            document.getElementById('ch-title').textContent = channels[currentIdx].title;
         }
 
         function togglePlayPause() {
-            if (!isPlayerReady) return;
-            const state = player.getPlayerState();
-            if (state === YT.PlayerState.PLAYING || state === YT.PlayerState.BUFFERING) {
-                player.pauseVideo();
-            } else {
-                player.playVideo();
-            }
+            if (!isReady) return;
+            player[player.getPlayerState() === YT.PlayerState.PLAYING ? 'pauseVideo' : 'playVideo']();
         }
 
-        function populateCreatorList() {
-            const listArea = document.getElementById('creator-list');
-            listArea.innerHTML = '';
-            channels.forEach((channel, index) => {
+        function populateList() {
+            const container = document.getElementById('creator-list');
+            container.innerHTML = '';
+            channels.forEach((ch, i) => {
                 const card = document.createElement('div');
                 card.className = 'creator-card';
-                const link = document.createElement('a');
-                link.href = channel.channelUrl;
-                link.target = '_blank';
-                link.textContent = channel.creator;
-                card.innerHTML = `<p><strong>CH ${index + 1}:</strong> ${channel.title}</p>`;
-                card.appendChild(link);
-                listArea.appendChild(card);
+                card.innerHTML = `
+                    <p><strong>CH ${i + 1}:</strong> ${ch.title}</p>
+                    <a href="${ch.url}" target="_blank">${ch.creator}</a>
+                `;
+                container.appendChild(card);
             });
         }
     </script>
