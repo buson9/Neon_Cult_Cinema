@@ -2,56 +2,44 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Teleport TV - Relax</title>
+    <title>Teleport TV - Paisajes</title>
     <style>
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: #000; overflow: hidden; }
-        /* El secreto: Usamos el iframe directamente */
-        #player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .controles { position: fixed; bottom: 20px; left: 20px; z-index: 999; }
-        button { padding: 12px 20px; cursor: pointer; background: rgba(0,0,0,0.8); color: white; border: 1px solid white; border-radius: 8px; font-weight: bold; }
+        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .controles { position: fixed; bottom: 30px; left: 30px; z-index: 100; }
+        button { padding: 15px 25px; cursor: pointer; background: white; color: black; border: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
-    <!-- Cargamos el primer video directamente para evitar que el script falle al inicio -->
-    <iframe id="player" 
+    <!-- Cambiamos el allow para que Firefox no se queje y usamos la URL de embed correcta -->
+    <iframe id="reproductor" 
         src="https://www.youtube.com" 
-        allow="autoplay; encrypted-media" 
-        allowfullscreen>
+        allow="autoplay; fullscreen" 
+        title="Paisajes TV">
     </iframe>
 
     <div class="controles">
-        <button onclick="comando('unMute');">🔊 ACTIVAR SONIDO</button>
-        <button onclick="siguiente();">SIGUIENTE PAISAJE ➔</button>
+        <button onclick="siguiente()">SIGUIENTE PAISAJE ➔</button>
     </div>
 
     <script>
-        var lista = ['668n7W6F9pY', '1ZyH8fS6M_A', 'mXz6T8K8U1E', '3S7Lp-y9R8M'];
-        var i = 0;
-        var playerFrame = document.getElementById('player');
-
-        // Función para enviar comandos al video sin cargar scripts externos
-        function comando(func) {
-            playerFrame.contentWindow.postMessage(JSON.stringify({
-                "event": "command",
-                "func": func,
-                "args": []
-            }), "*");
-        }
+        // Lista de videos relajantes
+        var paisajes = ['668n7W6F9pY', '1ZyH8fS6M_A', 'mXz6T8K8U1E', '3S7Lp-y9R8M', 'n_S8t9mB3uI'];
+        var actual = 0;
 
         function siguiente() {
-            i = (i + 1) % lista.length;
-            // Cambiamos el SRC directamente, esto NUNCA falla por MIME
-            var nuevaURL = "https://www.youtube.com" + lista[i] + "?enablejsapi=1&autoplay=1&mute=0&controls=0&modestbranding=1&rel=0";
-            playerFrame.src = nuevaURL;
+            actual = (actual + 1) % paisajes.length;
+            var frame = document.getElementById('reproductor');
+            // Al cambiar el SRC de esta forma, evitamos el bloqueo X-Frame-Options
+            frame.src = "https://www.youtube.com" + paisajes[actual] + "?autoplay=1&mute=0&controls=0&modestbranding=1&enablejsapi=1";
         }
 
-        // Si el video no carga automático, esto fuerza el play
-        window.onload = function() {
-            setTimeout(function() {
-                comando('playVideo');
-            }, 2000);
-        };
+        // Este pequeño truco ayuda a que el navegador acepte el comando de autoplay
+        window.addEventListener('mousedown', function() {
+            var frame = document.getElementById('reproductor');
+            frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        });
     </script>
 </body>
 </html>
