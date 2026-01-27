@@ -2,107 +2,69 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teleport Relax TV</title>
+    <title>Teleport TV - Relax</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { height: 100%; width: 100%; background: #000; overflow: hidden; font-family: sans-serif; }
-        
-        /* Contenedor del video ocupando todo el fondo */
-        #player-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-        #player { width: 100%; height: 100%; }
-
-        /* Capa de control superior */
-        .ui-overlay {
-            position: absolute; bottom: 40px; left: 40px; z-index: 100;
-            display: flex; gap: 15px; align-items: center;
-        }
-
-        button {
-            padding: 15px 30px; font-size: 16px; font-weight: bold; cursor: pointer;
-            background: rgba(0, 0, 0, 0.7); color: white; border: 2px solid #fff;
-            border-radius: 50px; transition: 0.3s;
-        }
-
-        button:hover { background: #fff; color: #000; transform: scale(1.05); }
-        
-        .status { color: rgba(255,255,255,0.6); font-size: 14px; margin-left: 10px; }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: #000; overflow: hidden; }
+        #player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .controles { position: fixed; bottom: 20px; left: 20px; z-index: 999; }
+        button { padding: 12px; cursor: pointer; background: rgba(0,0,0,0.8); color: white; border: 1px solid white; border-radius: 8px; }
     </style>
 </head>
 <body>
 
-    <div id="player-container">
-        <div id="player"></div>
-    </div>
+    <div id="player"></div>
 
-    <div class="ui-overlay">
-        <button id="btn-audio" onclick="gestionarAudio()">🔊 ACTIVAR SONIDO</button>
-        <button onclick="siguienteVideo()">SIGUIENTE PAISAJE ➔</button>
-        <span class="status" id="video-info">Cargando paisajes...</span>
+    <div class="controles">
+        <button id="btn-iniciar" onclick="iniciar()">▶ REPRODUCIR PAISAJES</button>
+        <button onclick="siguiente()">SIGUIENTE ➔</button>
     </div>
 
     <script>
-        // Lista de IDs de paisajes (Playas, Bosques, Montañas)
-        const listaVideos = ['668n7W6F9pY', '1ZyH8fS6M_A', 'mXz6T8K8U1E', '3S7Lp-y9R8M', 'n_S8t9mB3uI'];
-        let indiceActual = 0;
-        let player;
-
-        // 1. Carga segura de la API de YouTube
-        const tag = document.createElement('script');
+        // SOLUCIÓN AL ERROR MIME: Cargamos la API de forma dinámica y forzada
+        var tag = document.createElement('script');
         tag.src = "https://www.youtube.com";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
+        var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        // 2. Inicialización del reproductor
+        var player;
+        var lista = ['668n7W6F9pY', '1ZyH8fS6M_A', 'mXz6T8K8U1E', '3S7Lp-y9R8M'];
+        var i = 0;
+
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 height: '100%',
                 width: '100%',
-                videoId: listaVideos[indiceActual],
+                videoId: lista[i],
                 playerVars: {
                     'autoplay': 1,
                     'controls': 0,
-                    'mute': 1, // Obligatorio para evitar bloqueo inicial
-                    'modestbranding': 1,
-                    'rel': 0,
-                    'showinfo': 0,
-                    'iv_load_policy': 3,
-                    'origin': window.location.origin
+                    'mute': 1,
+                    'enablejsapi': 1,
+                    'origin': location.protocol + '//' + location.hostname,
+                    'widget_referrer': location.href
                 },
                 events: {
                     'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange,
-                    'onError': function() { siguienteVideo(); } // Salta si el video falla
+                    'onStateChange': function(e) { if(e.data === 0) siguiente(); }
                 }
             });
         }
 
         function onPlayerReady(event) {
             event.target.playVideo();
-            document.getElementById('video-info').innerText = "TV Relax: En Vivo";
         }
 
-        // 3. Control de Audio (Evita que el navegador bloquee el autoplay)
-        function gestionarAudio() {
-            if (player.isMuted()) {
+        function iniciar() {
+            if(player) {
                 player.unMute();
-                document.getElementById('btn-audio').innerText = "🔈 SILENCIAR";
-            } else {
-                player.mute();
-                document.getElementById('btn-audio').innerText = "🔊 ACTIVAR SONIDO";
+                player.playVideo();
+                document.getElementById('btn-iniciar').innerText = "🔊 SONIDO ACTIVADO";
             }
         }
 
-        // 4. Salto automático al terminar (Favorece vistas al creador)
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-                siguienteVideo();
-            }
-        }
-
-        function siguienteVideo() {
-            indiceActual = (indiceActual + 1) % listaVideos.length;
-            player.loadVideoById(listaVideos[indiceActual]);
+        function siguiente() {
+            i = (i + 1) % lista.length;
+            player.loadVideoById(lista[i]);
         }
     </script>
 </body>
