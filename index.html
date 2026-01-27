@@ -66,4 +66,224 @@
         }
 
         #start-button-overlay {
-            z-index
+            z-index: 15;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.98);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Orbitron', sans-serif;
+        }
+        #start-button-overlay p { margin: 10px 0; font-size: 1.1rem; }
+        #start-button {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.4rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 87, 51, 0.4);
+            font-family: 'Orbitron', sans-serif;
+        }
+        #start-button:hover { background: #E64A19; transform: translateY(-3px); }
+
+        .channel-info {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.9);
+            padding: 5px 10px;
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            z-index: 12;
+            font-size: 1.2rem;
+            border-radius: 3px;
+        }
+
+        .remote-control {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 700px;
+        }
+        button {
+            background: #1e2a38;
+            color: var(--color-text);
+            border: 2px solid var(--color-accent);
+            padding: 12px 20px;
+            font-family: 'VT323', monospace;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 5px;
+            flex-grow: 1;
+        }
+        button:hover { background: var(--color-accent); color: var(--color-background); box-shadow: 0 0 15px var(--color-accent); }
+
+        .credits-area {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            max-width: 1000px;
+            width: 100%;
+            border-top: 1px solid var(--color-chassis);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="main-title">World Window TV</h1>
+        <p id="welcome-msg" class="subtitle">Experience the world from home | Immersive TV</p>
+    </header>
+
+    <div class="tv-chassis">
+        <div class="screen">
+            <div id="start-button-overlay">
+                <p id="loading-message">Loading video API... please wait.</p>
+                <button id="start-button" onclick="initializePlayback()" style="display:none;">▶ START TV</button>
+            </div>
+            <div id="player"></div>
+            <div class="channel-info">
+                <div id="ch-title">Select a channel</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="remote-control">
+        <button id="btn-prev" onclick="changeChannel(-1)">◀ Prev</button>
+        <button id="btn-play-pause" onclick="togglePlayPause()">❚❚ Play/Pause</button>
+        <button id="btn-next" onclick="changeChannel(1)">Next ▶</button>
+    </div>
+
+    <div class="credits-area">
+        <p>All videos are public and embeddable from YouTube.</p>
+    </div>
+
+    <script>
+        // Detectar español
+        function isSpanishSpeakingCountry() {
+            const spanishCountries = ['AR','BO','CL','CO','CR','CU','DO','EC','ES','GT','HN','MX','NI','PA','PY','PE','PR','UY','VE','SV'];
+            const lang = (navigator.language || 'en').toUpperCase();
+            const code = lang.includes('-') ? lang.split('-')[1] : lang;
+            return spanishCountries.includes(code);
+        }
+        const isSpanish = isSpanishSpeakingCountry();
+
+        const t = isSpanish ? {
+            pageTitle: 'World Window TV | Experiencia de Viaje',
+            mainTitle: 'World Window TV',
+            welcomeMsg: 'Experimenta el mundo desde casa | TV Inmersiva',
+            loadingApi: 'Cargando API de vídeo... espere.',
+            apiReady: 'API lista. Haz clic para empezar.',
+            startButton: '▶ INICIAR TV',
+            selectChannel: 'Selecciona un canal',
+            btnPrev: '◀ Anterior',
+            btnNext: 'Siguiente ▶',
+            btnPlayPause: '❚❚ Reproducir/Pausa'
+        } : {
+            pageTitle: 'World Window TV | Immersive Travel',
+            mainTitle: 'World Window TV',
+            welcomeMsg: 'Experience the world from home | Immersive TV',
+            loadingApi: 'Loading video API... please wait.',
+            apiReady: 'API ready. Click to start.',
+            startButton: '▶ START TV',
+            selectChannel: 'Select a channel',
+            btnPrev: '◀ Prev',
+            btnNext: 'Next ▶',
+            btnPlayPause: '❚❚ Play/Pause'
+        };
+
+        document.title = t.pageTitle;
+        document.getElementById('main-title').textContent = t.mainTitle;
+        document.getElementById('welcome-msg').textContent = t.welcomeMsg;
+        document.getElementById('loading-message').textContent = t.loadingApi;
+        document.getElementById('ch-title').textContent = t.selectChannel;
+        document.getElementById('btn-prev').textContent = t.btnPrev;
+        document.getElementById('btn-next').textContent = t.btnNext;
+        document.getElementById('btn-play-pause').textContent = t.btnPlayPause;
+
+        // ✅ SOLO CANALES QUE FUNCIONAN HOY (28/01/2026)
+        const channels = [
+            { id: 'LXb3EKWsInQ', title: isSpanish ? 'Maldivas en 4K' : 'Maldives in 4K' },
+            { id: 'pYkKJYvXn7M', title: isSpanish ? 'Desierto de Atacama' : 'Atacama Desert' },
+            { id: 'bX7dH5QvZ0A', title: isSpanish ? 'Glaciar Perito Moreno' : 'Perito Moreno Glacier' }
+        ];
+
+        let player;
+        let currentIdx = 0;
+        let isReady = false;
+
+        // Cargar API de YouTube
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'https://www.youtube.com/iframe_api';
+            document.head.appendChild(script);
+        })();
+
+        // Función global requerida por YouTube
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('player', {
+                videoId: channels[0].id,
+                playerVars: {
+                    autoplay: 0,
+                    controls: 1,
+                    modestbranding: 1,
+                    rel: 0,
+                    mute: 1  // ← clave para evitar bloqueo
+                },
+                events: {
+                    onReady: () => {
+                        isReady = true;
+                        document.getElementById('loading-message').textContent = t.apiReady;
+                        document.getElementById('start-button').textContent = t.startButton;
+                        document.getElementById('start-button').style.display = 'inline-block';
+                        updateChannelInfo();
+                    },
+                    onError: (e) => {
+                        console.error('Error:', e.data);
+                        document.getElementById('ch-title').textContent = '⚠️ Error. Changing...';
+                        setTimeout(() => changeChannel(1), 3000);
+                    }
+                }
+            });
+        };
+
+        function initializePlayback() {
+            if (!isReady) return;
+            document.getElementById('start-button-overlay').style.display = 'none';
+            document.getElementById('player').style.opacity = '1';
+            player.mute(); // asegurar mute
+            player.playVideo();
+        }
+
+        function changeChannel(dir) {
+            if (!isReady) return;
+            currentIdx = (currentIdx + dir + channels.length) % channels.length;
+            player.loadVideoById(channels[currentIdx].id);
+            updateChannelInfo();
+        }
+
+        function updateChannelInfo() {
+            document.getElementById('ch-title').textContent = channels[currentIdx].title;
+        }
+
+        function togglePlayPause() {
+            if (!isReady) return;
+            if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        }
+    </script>
+</body>
+</html>
