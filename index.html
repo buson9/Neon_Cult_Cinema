@@ -5,18 +5,21 @@
     <title>Teleport TV - Paisajes</title>
     <style>
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: #000; overflow: hidden; }
-        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .controles { position: fixed; bottom: 30px; left: 30px; z-index: 100; }
-        button { padding: 15px 25px; cursor: pointer; background: white; color: black; border: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        #player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .capa { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: pointer; }
+        .controles { position: fixed; bottom: 30px; left: 30px; z-index: 20; }
+        button { padding: 15px 25px; cursor: pointer; background: white; border: none; border-radius: 50px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- Cambiamos el allow para que Firefox no se queje y usamos la URL de embed correcta -->
-    <iframe id="reproductor" 
-        src="https://www.youtube.com" 
-        allow="autoplay; fullscreen" 
-        title="Paisajes TV">
+    <!-- La capa transparente permite que el primer clic active el video -->
+    <div class="capa" onclick="iniciar()"></div>
+    
+    <iframe id="video"
+        src="https://www.youtube-nocookie.com"
+        allow="autoplay; fullscreen"
+        frameborder="0">
     </iframe>
 
     <div class="controles">
@@ -24,22 +27,22 @@
     </div>
 
     <script>
-        // Lista de videos relajantes
-        var paisajes = ['668n7W6F9pY', '1ZyH8fS6M_A', 'mXz6T8K8U1E', '3S7Lp-y9R8M', 'n_S8t9mB3uI'];
+        var lista = ['668n7W6F9pY', '1ZyH8fS6M_A', 'mXz6T8K8U1E', '3S7Lp-y9R8M', 'n_S8t9mB3uI'];
         var actual = 0;
+        var iframe = document.getElementById('video');
 
-        function siguiente() {
-            actual = (actual + 1) % paisajes.length;
-            var frame = document.getElementById('reproductor');
-            // Al cambiar el SRC de esta forma, evitamos el bloqueo X-Frame-Options
-            frame.src = "https://www.youtube.com" + paisajes[actual] + "?autoplay=1&mute=0&controls=0&modestbranding=1&enablejsapi=1";
+        function iniciar() {
+            // Envía comando de reproducir y quita la capa
+            iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+            document.querySelector('.capa').style.display = 'none';
         }
 
-        // Este pequeño truco ayuda a que el navegador acepte el comando de autoplay
-        window.addEventListener('mousedown', function() {
-            var frame = document.getElementById('reproductor');
-            frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        });
+        function siguiente() {
+            actual = (actual + 1) % lista.length;
+            // Usamos youtube-nocookie para saltar bloqueos de seguridad de GitHub
+            iframe.src = "https://www.youtube-nocookie.com" + lista[actual] + "?autoplay=1&mute=0&controls=0&modestbranding=1&enablejsapi=1";
+        }
     </script>
 </body>
 </html>
