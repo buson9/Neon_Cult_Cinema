@@ -3,75 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teleport TV - Paisajes</title>
+    <title>Teleport Relax TV</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background: #000; }
-        #player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .controles { position: fixed; bottom: 20px; left: 20px; z-index: 100; display: flex; gap: 10px; }
-        button { padding: 12px 20px; cursor: pointer; background: rgba(0,0,0,0.6); color: white; border: 1px solid white; border-radius: 5px; font-family: sans-serif; }
-        button:hover { background: rgba(255,255,255,0.2); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { height: 100%; width: 100%; background: #000; overflow: hidden; font-family: sans-serif; }
+        
+        /* Contenedor del video ocupando todo el fondo */
+        #player-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        #player { width: 100%; height: 100%; }
+
+        /* Capa de control superior */
+        .ui-overlay {
+            position: absolute; bottom: 40px; left: 40px; z-index: 100;
+            display: flex; gap: 15px; align-items: center;
+        }
+
+        button {
+            padding: 15px 30px; font-size: 16px; font-weight: bold; cursor: pointer;
+            background: rgba(0, 0, 0, 0.7); color: white; border: 2px solid #fff;
+            border-radius: 50px; transition: 0.3s;
+        }
+
+        button:hover { background: #fff; color: #000; transform: scale(1.05); }
+        
+        .status { color: rgba(255,255,255,0.6); font-size: 14px; margin-left: 10px; }
     </style>
 </head>
 <body>
 
-    <div id="player"></div>
+    <div id="player-container">
+        <div id="player"></div>
+    </div>
 
-    <div class="controles">
-        <button id="btnMute" onclick="toggleMute()">Activar Sonido 🔊</button>
-        <button onclick="nextVideo()">Siguiente Paisaje ➔</button>
+    <div class="ui-overlay">
+        <button id="btn-audio" onclick="gestionarAudio()">🔊 ACTIVAR SONIDO</button>
+        <button onclick="siguienteVideo()">SIGUIENTE PAISAJE ➔</button>
+        <span class="status" id="video-info">Cargando paisajes...</span>
     </div>
 
     <script>
-        // 1. Cargamos la API de forma asíncrona pero segura
-        var tag = document.createElement('script');
+        // Lista de IDs de paisajes (Playas, Bosques, Montañas)
+        const listaVideos = ['668n7W6F9pY', '1ZyH8fS6M_A', 'mXz6T8K8U1E', '3S7Lp-y9R8M', 'n_S8t9mB3uI'];
+        let indiceActual = 0;
+        let player;
+
+        // 1. Carga segura de la API de YouTube
+        const tag = document.createElement('script');
         tag.src = "https://www.youtube.com";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
+        const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        var player;
-        var paisajesIDs = ['668n7W6F9pY', '1ZyH8fS6M_A', 'mXz6T8K8U1E', '3S7Lp-y9R8M'];
-
-        // 2. Esta función la llama YouTube automáticamente cuando carga
+        // 2. Inicialización del reproductor
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 height: '100%',
                 width: '100%',
-                videoId: paisajesIDs[0],
+                videoId: listaVideos[indiceActual],
                 playerVars: {
                     'autoplay': 1,
                     'controls': 0,
-                    'mute': 1,
+                    'mute': 1, // Obligatorio para evitar bloqueo inicial
                     'modestbranding': 1,
-                    'loop': 1,
-                    'playlist': paisajesIDs.join(',') // Para que funcione el loop
+                    'rel': 0,
+                    'showinfo': 0,
+                    'iv_load_policy': 3,
+                    'origin': window.location.origin
                 },
                 events: {
-                    'onReady': onPlayerReady
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange,
+                    'onError': function() { siguienteVideo(); } // Salta si el video falla
                 }
             });
         }
 
         function onPlayerReady(event) {
             event.target.playVideo();
+            document.getElementById('video-info').innerText = "TV Relax: En Vivo";
         }
 
-        // 3. Funciones de control con protección (evitan el error de "undefined")
-        function toggleMute() {
-            if (player && typeof player.isMuted === "function") {
-                if (player.isMuted()) {
-                    player.unMute();
-                    document.getElementById('btnMute').innerText = "Silenciar 🔇";
-                } else {
-                    player.mute();
-                    document.getElementById('btnMute').innerText = "Activar Sonido 🔊";
-                }
+        // 3. Control de Audio (Evita que el navegador bloquee el autoplay)
+        function gestionarAudio() {
+            if (player.isMuted()) {
+                player.unMute();
+                document.getElementById('btn-audio').innerText = "🔈 SILENCIAR";
+            } else {
+                player.mute();
+                document.getElementById('btn-audio').innerText = "🔊 ACTIVAR SONIDO";
             }
         }
 
-        function nextVideo() {
-            if (player && typeof player.nextVideo === "function") {
-                player.nextVideo();
+        // 4. Salto automático al terminar (Favorece vistas al creador)
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                siguienteVideo();
             }
+        }
+
+        function siguienteVideo() {
+            indiceActual = (indiceActual + 1) % listaVideos.length;
+            player.loadVideoById(listaVideos[indiceActual]);
         }
     </script>
 </body>
