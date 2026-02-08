@@ -2,329 +2,341 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>RetroReel TV</title>
+<title>Neon Cult Cinema – Public Domain Movies & Cartoons</title>
+
+<meta name="description" content="Watch classic cult movies and cartoons for free online. Retro neon TV experience with public domain cinema and animations.">
+<meta name="keywords" content="cult cinema, classic movies, public domain, retro TV, cartoons">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body {
   margin: 0;
-  background: #070707;
-  font-family: "Courier New", monospace;
-  color: #eaeaea;
-}
-.site-name {
-  text-align: center;
-  font-size: 48px;
-  font-weight: bold;
-  color: #ff4444; /* rojo neon */
-  margin-top: 15px;
-  text-shadow: 0 0 5px #ff4444, 0 0 10px #ff4444, 0 0 20px #ff8888, 0 0 30px #ff4444;
-  letter-spacing: 2px;
-  animation: neonGlow 1.5s ease-in-out infinite alternate;
-}
-@keyframes neonGlow {
-  0% { text-shadow: 0 0 5px #ff4444, 0 0 10px #ff4444, 0 0 20px #ff8888, 0 0 30px #ff4444; }
-  50% { text-shadow: 0 0 10px #ff4444, 0 0 20px #ff4444, 0 0 40px #ff8888, 0 0 50px #ff4444; }
-  100% { text-shadow: 0 0 5px #ff4444, 0 0 10px #ff4444, 0 0 20px #ff8888, 0 0 30px #ff4444; }
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: #eee;
 }
 
-.tv-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-.tv {
-  background: linear-gradient(#4b2e1e, #2a160c);
+/* HEADER */
+header {
+  text-align: center;
   padding: 25px;
-  border-radius: 25px;
-  width: 760px;
-  box-shadow: inset 0 0 40px #000, 0 25px 50px #000;
-  position: relative;
 }
+header h1 {
+  font-size: 3em;
+  color: #ff004c;
+  text-shadow: 0 0 15px #ff004c;
+}
+header p {
+  color: #0ff;
+  margin-top: 8px;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* VIDEO SCREEN */
+.tv {
+  background: #111;
+  border: 4px solid #0ff;
+  border-radius: 16px;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
 .screen {
   position: relative;
-  background: black;
-  border-radius: 15px;
-  overflow: hidden;
   width: 100%;
-  height: 405px;
-}
-.screen::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(0,0,0,0.05) 2px);
-  pointer-events: none;
-  animation: scanline 0.5s linear infinite;
-}
-.screen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  box-shadow: inset 0 0 80px rgba(255,0,0,0.15);
-  pointer-events: none;
-  animation: flicker 0.2s infinite;
-}
-@keyframes scanline { 0% {background-position:0 0;} 100% {background-position:0 2px;} }
-@keyframes flicker { 0%,100% {opacity:1;} 50% {opacity:0.95;} }
-.screen iframe { width: 100%; height: 100%; border: none; }
-
-.controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  margin-top: 15px;
-  flex-wrap: wrap;
-}
-.btn {
-  padding: 10px 16px;
-  border-radius: 50%;
-  border: 2px solid #0f9d58;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #070707;
-  color: #00ff88;
-  box-shadow: 0 0 5px #00ff88 inset, 0 0 10px #00ff88;
-  transition: all 0.2s;
-}
-.btn:hover {
-  background-color: #00ff88;
-  color: #070707;
-  box-shadow: 0 0 10px #00ff88 inset, 0 0 20px #00ff88;
+  padding-top: 56.25%;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.panel {
-  display: flex;
-  justify-content: space-around;
-  margin: 30px;
-  flex-wrap: wrap;
+.screen iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
-.box {
+
+.now-playing {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 1.2em;
+  color: #ff0;
+}
+
+/* LISTS */
+.section {
+  margin-top: 40px;
+}
+.section h2 {
+  color: #0ff;
+  border-bottom: 1px solid #0ff;
+  padding-bottom: 5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.card {
   background: #111;
-  padding: 15px;
+  padding: 10px;
   border-radius: 10px;
-  width: 30%;
-  min-width: 250px;
+  text-align: center;
+  box-shadow: 0 0 10px #0f0;
 }
-ul { padding-left: 20px; cursor:pointer; }
-ul li:hover { text-decoration: underline; }
 
-.miniatures-wrapper {
-  overflow: hidden;
+.card img {
   width: 100%;
-  margin-top: 15px;
-  border-radius: 10px;
-  border: 2px solid #00ff88;
-  height: 60px;
-}
-.miniatures {
-  display: flex;
-  gap: 5px;
-  position: relative;
-  animation: scroll 40s linear infinite;
-}
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.miniatures img {
-  width: 80px;
-  height: 45px;
-  border: 2px solid #00ff88;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  object-fit: cover;
-  transition: transform 0.3s, border-color 0.3s;
 }
-.miniatures img.active {
-  border-color: #ff4444;
-  transform: scale(1.2);
+
+.card h3 {
+  font-size: 1em;
+  margin: 8px 0;
+  color: #aff;
 }
-.tooltip {
-  position: absolute;
-  bottom: 55px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.85);
-  color: #ff4444;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  white-space: nowrap;
+
+.btn {
+  display: inline-block;
+  margin: 4px;
+  padding: 6px 10px;
+  background: #ff004c;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.btn.alt {
+  background: #0ff;
+  color: #000;
+}
+
+/* DONATION */
+.donate {
+  margin-top: 40px;
+  padding: 25px;
+  background: #111;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 20px #0ff;
+}
+
+.donate h2 {
+  color: #ff0;
+}
+
+.donate button {
+  padding: 12px 24px;
+  font-size: 1.1em;
+  background: #ff004c;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+#donateQR {
   display: none;
-  z-index: 10;
+  margin-top: 15px;
+}
+#donateQR img {
+  width: 200px;
+  border-radius: 12px;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+  padding: 20px;
 }
 </style>
 </head>
+
 <body>
 
-<div class="site-name">RetroReel TV</div>
+<header>
+  <h1>Neon Cult Cinema</h1>
+  <p>Public Domain Classics & Cartoons</p>
+</header>
 
-<div class="tv-wrapper">
-  <div class="tv">
-    <div class="screen">
-      <iframe id="videoFrame" src="" allowfullscreen></iframe>
-      <div class="overlay" id="videoOverlay"></div>
-    </div>
+<div class="container">
 
-    <div class="controls">
-      <button class="btn" onclick="prevMovie()">⏪</button>
-      <button class="btn" onclick="nextMovie()">▶</button>
-      <button class="btn" onclick="randomMovie()">🎬</button>
-      <span style="color:#ff4444; font-weight:bold; margin-left:10px;">Sit back, relax & enjoy!</span>
-    </div>
-
-    <div class="miniatures-wrapper">
-      <div class="miniatures" id="miniatures"></div>
-    </div>
+<div class="tv">
+  <div class="screen">
+    <iframe id="player" allowfullscreen></iframe>
   </div>
+  <div class="now-playing" id="nowPlaying">Select a film to start</div>
 </div>
 
-<div class="panel">
-  <div class="box">
-    <h3 id="aboutTitle"></h3>
-    <p id="aboutText"></p>
-    <small id="legalText"></small>
-  </div>
-  <div class="box">
-    <h3 id="scheduleTitle"></h3>
-    <strong>Movies</strong>
-    <ul id="movieListMovies"></ul>
-    <strong>Cartoons</strong>
-    <ul id="movieListCartoons"></ul>
-  </div>
-  <div class="box">
-    <h3 id="donateTitle"></h3>
-    <p id="donateText"></p>
-    <button class="btn" id="donateBtn" style="padding: 12px 20px; font-size: 18px; border-radius: 10px; background-color:#00ff88; color:#070707; border:none; cursor:pointer; box-shadow: 0 0 10px #0f9d58;">Click Here to Contribute!</button>
-    <div id="donateModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:1000;">
-      <div style="background:#111; padding:25px; border-radius:15px; text-align:center;">
-        <h2 style="color:#ff4444;">Thank you for supporting RetroReel TV!</h2>
-        <p style="color:#eee;">Scan this QR to donate securely:</p>
-        <img src="takenos.png" style="width:180px; margin-top:10px;">
-        <br><br>
-        <button onclick="document.getElementById('donateModal').style.display='none'" style="padding:10px 20px; font-size:16px; border-radius:8px; background-color:#ff4444; color:#fff; border:none; cursor:pointer;">Close</button>
-      </div>
-    </div>
-  </div>
+<!-- MOVIES -->
+<div class="section">
+<h2>🎥 Classic Films</h2>
+<div class="grid">
+
+<!-- ORIGINALS -->
+<div class="card">
+<img src="posters/house.jpg" onclick="play('https://archive.org/embed/HouseOnHauntedHillWidescreenVideoUpgrade','House on Haunted Hill (1959)')">
+<h3>House on Haunted Hill (1959)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/HouseOnHauntedHillWidescreenVideoUpgrade','House on Haunted Hill')">Play</div>
+<div class="btn alt" onclick="play('https://archive.org/embed/HouseOnHauntedHill_201605','House on Haunted Hill')">HD</div>
 </div>
+
+<div class="card">
+<img src="posters/nosferatu.jpg" onclick="play('https://archive.org/embed/Nosferatu1922HD','Nosferatu (1922)')">
+<h3>Nosferatu (1922)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/Nosferatu1922HD','Nosferatu')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/whitezombie.jpg" onclick="play('https://archive.org/embed/WhiteZombie1932','White Zombie')">
+<h3>White Zombie (1932)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/WhiteZombie1932','White Zombie')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/caligari.jpg" onclick="play('https://archive.org/embed/TheCabinetOfDr.Caligari1920FULLMOVIE','Caligari')">
+<h3>Dr. Caligari (1920)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/TheCabinetOfDr.Caligari1920FULLMOVIE','Caligari')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/plan9.jpg" onclick="play('https://archive.org/embed/plan-9-from-outer-space-1959_ed-wood','Plan 9')">
+<h3>Plan 9 from Outer Space</h3>
+<div class="btn" onclick="play('https://archive.org/embed/plan-9-from-outer-space-1959_ed-wood','Plan 9')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/hisgirlfriday.jpg" onclick="play('https://archive.org/embed/his-girl-friday-1940_202310','His Girl Friday')">
+<h3>His Girl Friday (1940)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/his-girl-friday-1940_202310','His Girl Friday')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/detour.jpg" onclick="play('https://archive.org/embed/detour1945HD','Detour')">
+<h3>Detour (1945)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/detour1945HD','Detour')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/scarletstreet.jpg" onclick="play('https://archive.org/embed/ScarletStreet','Scarlet Street')">
+<h3>Scarlet Street (1945)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/ScarletStreet','Scarlet Street')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/lastmanonearth.jpg" onclick="play('https://archive.org/embed/the-last-man-on-earth-1964_202312','Last Man on Earth')">
+<h3>Last Man on Earth (1964)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/the-last-man-on-earth-1964_202312','Last Man on Earth')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/brainarous.jpg" onclick="play('https://archive.org/embed/TheBrainFromPlanetArous','Brain from Planet Arous')">
+<h3>Brain from Planet Arous (1957)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/TheBrainFromPlanetArous','Brain from Planet Arous')">Play</div>
+</div>
+
+<!-- NEW MOVIES -->
+<div class="card">
+<img src="posters/goldrush.jpg" onclick="play('https://archive.org/embed/the-gold-rush-film-1925','The Gold Rush')">
+<h3>The Gold Rush (1925)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/the-gold-rush-film-1925','The Gold Rush')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/nightofthelivingdead.jpg" onclick="play('https://archive.org/embed/night-of-the-living-dead-1968_202312','Night of the Living Dead')">
+<h3>Night of the Living Dead (1968)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/night-of-the-living-dead-1968_202312','Night of the Living Dead')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/kingkong.jpg" onclick="play('https://archive.org/embed/king.-kong.-1933.-colorized.-version','King Kong')">
+<h3>King Kong (1933)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/king.-kong.-1933.-colorized.-version','King Kong')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/lostworld.jpg" onclick="play('https://archive.org/embed/the.-lost.-world.-1925.1080p.-blu-ray.x-264-sadpanda','The Lost World')">
+<h3>The Lost World (1925)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/the.-lost.-world.-1925.1080p.-blu-ray.x-264-sadpanda','The Lost World')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/haxan.jpg" onclick="play('https://archive.org/embed/haxan-1922-by-benjamin-christensen','Häxan')">
+<h3>Häxan (1922)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/haxan-1922-by-benjamin-christensen','Häxan')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/metropolis.jpg" onclick="play('https://archive.org/embed/metropolis-1927-bdrip-1080p-x-265-dts-hd-ma-5.1-d-0ct-0r-lew-sev','Metropolis')">
+<h3>Metropolis (1927)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/metropolis-1927-bdrip-1080p-x-265-dts-hd-ma-5.1-d-0ct-0r-lew-sev','Metropolis')">Play</div>
+</div>
+
+</div>
+</div>
+
+<!-- CARTOONS -->
+<div class="section">
+<h2>🎨 Cartoons</h2>
+<div class="grid">
+
+<div class="card">
+<img src="posters/peaceonearth.jpg" onclick="play('https://archive.org/embed/peace-on-earth-1939','Peace on Earth')">
+<h3>Peace on Earth (1939)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/peace-on-earth-1939','Peace on Earth')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/circus.jpg" onclick="play('https://archive.org/embed/looney-tunes-circus-today-1940-hd-logoless','Circus Today')">
+<h3>Circus Today (1940)</h3>
+<div class="btn" onclick="play('https://archive.org/embed/looney-tunes-circus-today-1940-hd-logoless','Circus Today')">Play</div>
+</div>
+
+<div class="card">
+<img src="posters/tvtomorrow.jpg" onclick="play('https://archive.org/embed/3-tv-of-tomorrow','TV of Tomorrow')">
+<h3>TV of Tomorrow</h3>
+<div class="btn" onclick="play('https://archive.org/embed/3-tv-of-tomorrow','TV of Tomorrow')">Play</div>
+</div>
+
+</div>
+</div>
+
+<div class="donate">
+<h2>Support Neon Cult Cinema</h2>
+<p>If you enjoy this archive, consider supporting it.</p>
+<button onclick="document.getElementById('donateQR').style.display='block'">Donate / Colabora</button>
+<div id="donateQR">
+<img src="takenos.png">
+</div>
+</div>
+
+</div>
+
+<footer>
+Neon Cult Cinema – Curated classics from public sources
+</footer>
 
 <script>
-// Idioma
-const lang = navigator.language.startsWith("es") ? "es" : "en";
-const text = {
-  en: { aboutTitle:"About", aboutText:"RetroReel TV streams classic movies and cartoons legally free.", legal:"All content is legally free to watch, from public domain or authorized sources.", schedule:"Programming", donate:"Support the Channel", donateText:"Support the site! Click to donate." },
-  es: { aboutTitle:"Acerca de", aboutText:"RetroReel TV transmite películas y dibujos animados legales y gratuitos.", legal:"Todo el contenido es legal y gratuito, proveniente de dominio público o fuentes autorizadas.", schedule:"Programación", donate:"Apoya el Canal", donateText:"¡Colabora con el sitio! Haz clic para donar." }
-};
-document.getElementById("aboutTitle").innerText = text[lang].aboutTitle;
-document.getElementById("aboutText").innerText = text[lang].aboutText;
-document.getElementById("legalText").innerText = text[lang].legal;
-document.getElementById("scheduleTitle").innerText = text[lang].schedule;
-document.getElementById("donateTitle").innerText = text[lang].donate;
-document.getElementById("donateText").innerText = text[lang].donateText;
-document.getElementById("donateBtn").innerText = lang==="es"?"Haz clic aquí para colaborar":"Click Here to Contribute!";
-
-// Películas
-const movies = [
-  {title:"Night of the Living Dead - Raw HD WS", src:"https://archive.org/embed/Night_Of_The_Living_Dead_raw_HD_WS", year:"1968", genre:"Horror", thumb:"https://archive.org/services/img/Night_Of_The_Living_Dead_raw_HD_WS"},
-  {title:"Night of the Living Dead - Remastered HD", src:"https://archive.org/embed/NightOfTheLivingDeadRemasteredHD", year:"1968", genre:"Horror", thumb:"https://archive.org/services/img/NightOfTheLivingDeadRemasteredHD"},
-  {title:"Night of the Living Dead - WS Int Print", src:"https://archive.org/embed/NightOfTheLivingDeadWSInternationalPrint", year:"1968", genre:"Horror", thumb:"https://archive.org/services/img/NightOfTheLivingDeadWSInternationalPrint"},
-  {title:"Detour (1945) - Original", src:"https://archive.org/embed/detour-1945", year:"1945", genre:"Film Noir", thumb:"https://archive.org/services/img/detour-1945"},
-  {title:"Detour (1945) - Colorized", src:"https://archive.org/embed/detour1945HD", year:"1945", genre:"Film Noir", thumb:"https://archive.org/services/img/detour1945HD"},
-  {title:"The Brain That Wouldn't Die - Extended Cut", src:"https://archive.org/embed/thebrainthatwouldntdie1962_202009/EXTENDED+CUT", year:"1962", genre:"Horror", thumb:"https://archive.org/services/img/thebrainthatwouldntdie1962_202009"},
-  {title:"The Brain That Wouldn't Die - Theatrical Cut", src:"https://archive.org/embed/thebrainthatwouldntdie1962_202009/THEATRICAL+CUT", year:"1962", genre:"Horror", thumb:"https://archive.org/services/img/thebrainthatwouldntdie1962_202009/THEATRICAL+CUT"},
-  {title:"Peace on Earth (1939)", src:"https://archive.org/embed/peace-on-earth-1939", year:"1939", genre:"Animation", thumb:"https://archive.org/services/img/peace-on-earth-1939"},
-  {title:"Looney Tunes - Circus Today (1940)", src:"https://archive.org/embed/looney-tunes-circus-today-1940-hd-logoless", year:"1940", genre:"Animation", thumb:"https://archive.org/services/img/looney-tunes-circus-today-1940-hd-logoless"},
-  {title:"3 TV of Tomorrow", src:"https://archive.org/embed/3-tv-of-tomorrow", year:"1939-1941", genre:"Animation", thumb:"https://archive.org/services/img/3-tv-of-tomorrow"}
-];
-
-// Comercial break
-const commercial = {title:"Commercial Break"};
-let playIndex = 0;
-let videoCount = 0;
-const iframe = document.getElementById("videoFrame");
-const overlay = document.getElementById("videoOverlay");
-const miniaturesDiv = document.getElementById("miniatures");
-
-// LISTAS
-const movieListMovies = document.getElementById("movieListMovies");
-const movieListCartoons = document.getElementById("movieListCartoons");
-movies.forEach((m,i)=>{
-  const li = document.createElement("li");
-  li.textContent = m.title;
-  li.style.color = m.genre==="Animation"?"#ffaa00":"#00ff88";
-  li.onclick = ()=>playMovie(i);
-  if(m.genre==="Animation") movieListCartoons.appendChild(li);
-  else movieListMovies.appendChild(li);
-});
-
-// MINIATURAS
-function updateMiniatures(){
-  miniaturesDiv.innerHTML = "";
-  const allThumbs = [...movies, ...movies]; // duplicar para scroll infinito
-  allThumbs.forEach((m,i)=>{
-    const img = document.createElement("img");
-    img.src = m.thumb;
-    img.title = m.title+" ("+m.year+")";
-    img.onclick = ()=>{playMovie(i % movies.length)};
-    img.onmouseover = ()=>{
-      let tip = document.createElement("div");
-      tip.className="tooltip";
-      tip.innerText = img.title;
-      img.parentElement.appendChild(tip);
-      tip.style.display="block";
-    };
-    img.onmouseout = ()=>{
-      const tip = img.parentElement.querySelector(".tooltip");
-      if(tip) tip.remove();
-    };
-    img.classList.toggle("active", i % movies.length === playIndex);
-    miniaturesDiv.appendChild(img);
-  });
+function play(url,title){
+  document.getElementById("player").src = url;
+  document.getElementById("nowPlaying").innerText = "▶ " + title;
 }
-
-// REPRODUCIR PELÍCULA
-function playMovie(index){
-  playIndex = index;
-  videoCount++;
-  if(videoCount%4 ===0){
-    iframe.src = "";
-    overlay.innerText = commercial.title;
-    miniaturesDiv.innerHTML="";
-    setTimeout(()=>{ nextMovie(); },15000);
-  }else{
-    overlay.innerText = movies[playIndex].title+" ("+movies[playIndex].year+" - "+movies[playIndex].genre+")";
-    iframe.src = movies[playIndex].src;
-    updateMiniatures();
-  }
-}
-
-// ROTACIÓN
-let rotationTimer;
-function startRotation(){
-  clearTimeout(rotationTimer);
-  rotationTimer = setTimeout(()=>{
-    nextMovie();
-    startRotation();
-  }, 30*60*1000);
-}
-startRotation();
-
-// CONTROLES
-function nextMovie(){ playMovie((playIndex+1)%movies.length); startRotation(); }
-function prevMovie(){ playMovie((playIndex-1+movies.length)%movies.length); startRotation(); }
-function randomMovie(){ playMovie(Math.floor(Math.random()*movies.length)); startRotation(); }
-
-// START
-playMovie(0);
-
-// DONATE BUTTON
-document.getElementById("donateBtn").onclick = function() {
-  document.getElementById("donateModal").style.display = "flex";
-};
 </script>
 
 </body>
 </html>
-
-
