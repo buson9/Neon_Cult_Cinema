@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,7 +125,7 @@ header p {
   color: #000;
 }
 
-/* DONATION */
+/* DONATION - MODIFICADO SEGÚN TUS INSTRUCCIONES */
 .donate {
   margin-top: 40px;
   padding: 25px;
@@ -155,6 +156,94 @@ header p {
 #donateQR img {
   width: 200px;
   border-radius: 12px;
+}
+
+/* NUEVOS ESTILOS PARA LAS OPCIONES DE DONACIÓN */
+.donate-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 25px 0 20px 0;
+}
+
+.donate-option {
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid #0ff;
+  border-radius: 12px;
+  padding: 20px;
+  width: 260px;
+  transition: all 0.3s ease;
+}
+
+.donate-option:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 20px #0ff;
+  transform: translateY(-3px);
+}
+
+.donate-option h3 {
+  color: #ff0;
+  font-size: 1.5rem;
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.donate-option p {
+  margin: 12px 0;
+  font-size: 1.1rem;
+  color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.donate-option a {
+  color: #ff004c;
+  text-decoration: none;
+  font-weight: bold;
+  background: rgba(255, 0, 76, 0.2);
+  padding: 5px 12px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  display: inline-block;
+  border: 1px solid #ff004c;
+}
+
+.donate-option a:hover {
+  background: #ff004c;
+  color: #fff;
+  box-shadow: 0 0 15px #ff004c;
+}
+
+.donate-divider {
+  color: #0ff;
+  font-size: 1.2rem;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.airtm-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #1a4cff;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  gap: 6px;
+}
+
+.airtm-badge a {
+  color: white !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
 /* FOOTER */
@@ -316,13 +405,38 @@ footer {
 </div>
 </div>
 
+<!-- SECCIÓN DE DONACIONES MODIFICADA SEGÚN TUS INSTRUCCIONES -->
 <div class="donate">
-<h2>Support Neon Cult Cinema</h2>
-<p>If you enjoy this archive, consider supporting it.</p>
-<button onclick="document.getElementById('donateQR').style.display='block'">Donate / Colabora</button>
-<div id="donateQR">
-<img src="takenos.png">
-</div>
+  <h2>Support Neon Cult Cinema</h2>
+  <p>If you enjoy this archive, consider supporting it.</p>
+  
+  <!-- OPCIONES DE DONACIÓN MEJORADAS -->
+  <div class="donate-options">
+    <!-- AIRTM - PRIMERA OPCIÓN -->
+    <div class="donate-option">
+      <h3>💸 Airtm</h3>
+      <p>
+        <span class="airtm-badge">🔗 <a href="https://airtm.me/buson9" target="_blank">airtm.me/buson9</a></span>
+      </p>
+      <p>
+        <span style="color:#0ff;">📧 ID:</span> 
+        <a href="borisuria@gmail.com">borisuria@gmail.com</a>
+      </p>
+      <p style="font-size:0.9rem; color:#888; margin-top:10px;">Fast, secure, international</p>
+    </div>
+    
+    <!-- TAKENOS - SEGUNDA OPCIÓN -->
+    <div class="donate-option">
+      <h3>📱 Takenos</h3>
+      <button onclick="document.getElementById('donateQR').style.display='block'" style="padding:10px 20px; font-size:1em; background:#ff004c; border:none; border-radius:8px; color:#fff; cursor:pointer;">Show QR Code</button>
+      <div id="donateQR" style="display:none; margin-top:15px;">
+        <img src="takenos.png" style="width:180px; border-radius:12px;">
+        <p style="font-size:0.9rem; color:#888; margin-top:5px;">Scan to donate</p>
+      </div>
+    </div>
+  </div>
+  
+  <p style="color:#aaa; font-size:0.9rem; margin-top:10px;">Your support helps keep the archive growing! 🙏</p>
 </div>
 
 </div>
